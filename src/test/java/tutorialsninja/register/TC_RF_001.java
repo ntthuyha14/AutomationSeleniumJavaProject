@@ -58,8 +58,6 @@ public class TC_RF_001 {
 
         driver.quit();
 
-
-
     }
 
     public String generateNewEmail(){
