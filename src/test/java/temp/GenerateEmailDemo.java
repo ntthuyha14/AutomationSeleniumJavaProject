@@ -11,4 +11,6 @@ public class GenerateEmailDemo {
         String emailWithTimeStamp = noSpaceAndColonstateString + "@gmail.com";
         System.out.println(emailWithTimeStamp);
     }
+
+
 }
