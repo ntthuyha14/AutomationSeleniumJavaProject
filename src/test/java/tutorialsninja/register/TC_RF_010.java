@@ -44,6 +44,7 @@ public class TC_RF_010 {
 
         Thread.sleep(3000);
 
+        //Case: Email = amotoori1
         File srcScreenshot1 = driver.findElement(By.xpath("//form[@class='form-horizontal']")).getScreenshotAs(OutputType.FILE);
         FileHandler.copy(srcScreenshot1, new File(System.getProperty("user.dir") + "\\Screenshots\\sc1Actual.png"));
 
@@ -51,12 +52,61 @@ public class TC_RF_010 {
         BufferedImage actualBImg = ImageIO.read(new File(System.getProperty("user.dir") + "\\Screenshots\\sc1Actual.png"));
         BufferedImage expectedBImg = ImageIO.read(new File(System.getProperty("user.dir") + "\\Screenshots\\sc1Expected.png"));
 
-        ImageDiffer imgDiffer = new ImageDiffer();
-        ImageDiff imgDifference = imgDiffer.makeDiff(expectedBImg, actualBImg);
+        ImageDiffer imgDiffer1 = new ImageDiffer();
+        ImageDiff imgDifference = imgDiffer1.makeDiff(expectedBImg, actualBImg);
 
         Assert.assertFalse(imgDifference.hasDiff());
 
+        //Case: Email = amotoori1@
+        driver.findElement(By.id("input-email")).clear();
+        driver.findElement(By.id("input-email")).sendKeys("amotoori1@");
+        driver.findElement(By.xpath("//input[@value='Continue']")).click();
+
+        Thread.sleep(3000);
+
+        File srcScreenshot2 = driver.findElement(By.xpath("//form[@class='form-horizontal']")).getScreenshotAs(OutputType.FILE);
+        FileHandler.copy(srcScreenshot2, new File(System.getProperty("user.dir") + "\\Screenshots\\sc2Actual.png"));
+
+        BufferedImage actualBImg2 = ImageIO.read(new File(System.getProperty("user.dir") + "\\Screenshots\\sc2Expected.png"));
+        BufferedImage expectedBImg2 = ImageIO.read(new File(System.getProperty("user.dir")+ "\\Screenshots\\sc2Expected.png"));
+
+        ImageDiffer imageDiffer2 = new ImageDiffer();
+        ImageDiff imgDifference2 = imageDiffer2.makeDiff(expectedBImg2,actualBImg2);
+
+        Assert.assertFalse(imgDifference.hasDiff());
+
+        //Case Email = amotoori1@gmail
+
+        driver.findElement(By.id("input-email")).clear();
+        driver.findElement(By.id("input-email")).sendKeys("amotoori1@gmail");
+        driver.findElement(By.xpath("//input[@value='Continue']")).click();
+
+        String expectedEmailWarning = "E-Mail Address does not appear to be valid!";
+
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@id='input-email']/following-sibling::div")).getText(), expectedEmailWarning);
+
+        //Case: Email = amotoori1@gmail.
+        driver.findElement(By.id("input-email")).clear();
+        driver.findElement(By.id("input-email")).sendKeys("amotoori1@gmail.");
+        driver.findElement(By.xpath("//input[@value='Continue']")).click();
+
+        Thread.sleep(3000);
+
+        File srcScreenshot3 = driver.findElement(By.xpath("//form[@class='form-horizontal']")).getScreenshotAs(OutputType.FILE);
+        FileHandler.copy(srcScreenshot3, new File(System.getProperty("user.dir") + "\\Screenshots\\sc3Actual.png"));
+
+        BufferedImage actualBImg3 = ImageIO.read(new File(System.getProperty("user.dir") + "\\Screenshots\\sc3Expected.png"));
+        BufferedImage expectedBImg3 = ImageIO.read(new File(System.getProperty("user.dir")+ "\\Screenshots\\sc3Expected.png"));
+
+        ImageDiffer imageDiffer3 = new ImageDiffer();
+        ImageDiff imgDifference3 = imageDiffer3.makeDiff(expectedBImg3,actualBImg3);
+
+        Assert.assertFalse(imgDifference3.hasDiff());
+
         driver.quit();
+
+
+
 
     }
 
