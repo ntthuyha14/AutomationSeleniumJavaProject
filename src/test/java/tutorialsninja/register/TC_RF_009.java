@@ -36,10 +36,5 @@ public class TC_RF_009 {
         Assert.assertEquals(driver.findElement(By.xpath("//div[@class='alert alert-danger alert-dismissible']")).getText(), expectedEmailWarning);
         Assert.assertTrue(driver.findElement(By.xpath("//ul[@class='breadcrumb']//a[text()='Register']")).isDisplayed());
 
-
-        System.out.println();
-
-
-
     }
 }
