@@ -1,5 +1,6 @@
 package tutorialsninja.register;
 
+import Utils.CommonUtilsEmail;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +25,7 @@ public class TC_RF_008 {
 
         driver.findElement(By.id("input-firstname")).sendKeys("Arun");
         driver.findElement(By.id("input-lastname")).sendKeys("Motoori");
-        driver.findElement(By.id("input-email")).sendKeys(generateEmail());
+        driver.findElement(By.id("input-email")).sendKeys(CommonUtilsEmail.generateBrandNewEmail());
         driver.findElement(By.id("input-telephone")).sendKeys("1234567890");
         driver.findElement(By.id("input-password")).sendKeys("12345");
         driver.findElement(By.id("input-confirm")).sendKeys("abcdf");
@@ -37,18 +38,6 @@ public class TC_RF_008 {
         Assert.assertEquals(driver.findElement(By.xpath("//div[@class='text-danger']")).getText(), expectedConfirmPasscodeWarning);
         Assert.assertTrue(driver.findElement(By.xpath("//ul[@class='breadcrumb']//a[text()='Register']")).isDisplayed());
 
-
-
-
-    }
-    public static String generateEmail(){
-        Date date = new Date();
-        String dateString = date.toString();
-        String noSpaceDateString = dateString.replaceAll("\\s", "");
-        String noSpaceAndColonstateString = noSpaceDateString.replaceAll("\\:", "");
-        String emailWithTimeStamp = noSpaceAndColonstateString + "@gmail.com";
-        System.out.println(emailWithTimeStamp);
-        return emailWithTimeStamp;
     }
 
 }

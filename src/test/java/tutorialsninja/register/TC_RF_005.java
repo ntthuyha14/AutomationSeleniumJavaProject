@@ -1,5 +1,6 @@
 package tutorialsninja.register;
 
+import Utils.CommonUtilsEmail;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +25,7 @@ public class TC_RF_005 {
 
         driver.findElement(By.id("input-firstname")).sendKeys("Arun");
         driver.findElement(By.id("input-lastname")).sendKeys("Motoori");
-        driver.findElement(By.id("input-email")).sendKeys(generateNewEmail());
+        driver.findElement(By.id("input-email")).sendKeys(CommonUtilsEmail.generateBrandNewEmail());
         driver.findElement(By.id("input-telephone")).sendKeys("1234567890");
         driver.findElement(By.id("input-password")).sendKeys("12345");
         driver.findElement(By.id("input-confirm")).sendKeys("12345");
@@ -40,11 +41,5 @@ public class TC_RF_005 {
     driver.quit();
 
     }
-        public String generateNewEmail() {
-            String emailWithTimeStamp = new Date().toString()
-                    .replaceAll("\\s", "")
-                    .replaceAll(":", "") + "@gmail.com";
-            return emailWithTimeStamp;
-        }
 
 }
