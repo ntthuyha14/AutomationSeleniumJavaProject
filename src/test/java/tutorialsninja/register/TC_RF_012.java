@@ -39,17 +39,23 @@ public class TC_RF_012 {
                 .sendKeys("12345").pause(Duration.ofSeconds(1))
                 .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
                 .sendKeys("12345").pause(Duration.ofSeconds(1))
+               //mặc định là Option No nên cần Keys.Left để chọn Yes
                 .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
                 .sendKeys(Keys.LEFT).pause(Duration.ofSeconds(1))
+               //Keys.TAB: Privacy Policy
                 .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
+               //Keys.TAB: Check Box của Privacy Policy
                 .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
+               //Keys.SPACE: select vào CheckBox
                 .sendKeys(Keys.SPACE).pause(Duration.ofSeconds(1))
+               //Keys.TAB và Keys.ENTER : button Continue
                 .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
                 .sendKeys(Keys.ENTER).build().perform();
 
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id='column-right']//a[text()='Logout']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//ul[@class='breadcrumb']//a[text()='Success']")).isDisplayed());
 
+        driver.quit();
 
     }
 
