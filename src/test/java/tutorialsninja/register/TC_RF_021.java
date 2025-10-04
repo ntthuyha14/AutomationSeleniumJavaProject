@@ -20,6 +20,13 @@ public class TC_RF_021 {
         driver.findElement(By.xpath("//span[text()='My Account']")).click();
         driver.findElement(By.linkText("Register")).click();
 
+//        driver.findElement(By.id("input-firstname")).sendKeys("Arun");
+//        driver.findElement(By.id("input-lastname")).sendKeys("Motoori");
+//        driver.findElement(By.id("input-email")).sendKeys(CommonUtilsEmail.generateBrandNewEmail());
+//        driver.findElement(By.id("input-telephone")).sendKeys("1234567890");
+//        driver.findElement(By.id("input-password")).sendKeys("12345");
+//        driver.findElement(By.id("input-confirm")).sendKeys("12345");
+
         Assert.assertEquals(driver.findElement(By.id("input-password")).getAttribute("type"), "password");
         Assert.assertEquals(driver.findElement(By.id("input-confirm")).getAttribute("type"), "password");
 
