@@ -8,10 +8,9 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class TC_RF_021 {
-
+public class TC_RF_022 {
     @Test
-    public void verifyDefaultCheckPrivacyPolicy(){
+    public void verifyHideVisiblilityPassword(){
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         driver.manage().window().maximize();
@@ -20,9 +19,11 @@ public class TC_RF_021 {
         driver.findElement(By.xpath("//span[text()='My Account']")).click();
         driver.findElement(By.linkText("Register")).click();
 
-        Assert.assertEquals(driver.findElement(By.xpath("//input[@name='agree']")).getAttribute("value"), "1");
+        Assert.assertEquals(driver.findElement(By.id("input-password")).getAttribute("type"), "password");
+        Assert.assertEquals(driver.findElement(By.id("input-confirm")).getAttribute("type"), "password");
 
         driver.quit();
 
     }
+
 }

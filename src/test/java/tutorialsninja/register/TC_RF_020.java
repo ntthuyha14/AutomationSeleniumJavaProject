@@ -12,7 +12,7 @@ import java.time.Duration;
 public class TC_RF_020 {
 
     @Test
-    public void verifyDefaultCheckPrivacyPolicy() {
+    public void verifyRegisteringAccountWithoutPrivacyPolicySelection() {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
