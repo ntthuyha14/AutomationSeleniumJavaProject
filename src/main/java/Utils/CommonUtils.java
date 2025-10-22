@@ -10,16 +10,19 @@ import java.io.IOException;
 
 public class CommonUtils {
     public static boolean compareTwoScreenshots(String actualImagePath, String expectedImagePath) throws IOException {
-        // Đọc 2 ảnh từ đường dẫn
-        BufferedImage actualImg   = ImageIO.read(new File(actualImagePath));
-        BufferedImage expectedImg = ImageIO.read(new File(expectedImagePath));
+        BufferedImage acutualBImg = null;
+        BufferedImage expectedBImg = null;
+        try {
+            acutualBImg = ImageIO.read(new File(System.getProperty("user.dir")+actualImagePath));
+            expectedBImg = ImageIO.read(new File(System.getProperty("user.dir")+expectedImagePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // So sánh ảnh bằng ImageDiffer
-        ImageDiffer imageDiffer = new ImageDiffer();
-        ImageDiff diff = imageDiffer.makeDiff(expectedImg, actualImg);
+        ImageDiffer imgDiffer = new ImageDiffer();
+        ImageDiff imgDifference = imgDiffer.makeDiff(expectedBImg, acutualBImg);
 
-        // Trả về true nếu có sự khác biệt
-        return diff.hasDiff();
+        return imgDifference.hasDiff();
     }
 
 }
