@@ -1,27 +1,45 @@
 package tutorialsninja.register;
 
+import Utils.CommonUtils;
+import Utils.CommonUtilsEmail;
+import base.Base;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Properties;
 
-public class TC_RF_004 {
+public class TC_RF_004 extends Base {
 
-    @Test
-    public void verifyRegistringAccountWithoutFillFields(){
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.manage().window().maximize();
-        driver.get("https://tutorialsninja.com/demo/");
+    WebDriver driver;
+    Properties prop;
 
-
+    @BeforeMethod
+    public void setup() {
+        driver = openBrowserAndApplication();
+        prop = CommonUtils.loadProperties();
         driver.findElement(By.xpath("//span[text()='My Account']")).click();
         driver.findElement(By.linkText("Register")).click();
+
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void verifyRegistringAccountWithoutFillFields() {
         driver.findElement(By.xpath("//input[@value='Continue']")).click();
 
         String expectedPolicyWarning = "Warning: You must agree to the Privacy Policy!";
@@ -32,12 +50,11 @@ public class TC_RF_004 {
         String expectedPasswordWarning = "Password must be between 4 and 20 characters!";
 
         Assert.assertEquals(driver.findElement(By.xpath("//input[@id='input-firstname']/following-sibling::div")).getText(), expectedFirstNameWarning);
-        Assert.assertEquals(driver.findElement(By.xpath("//input[@id='input-lastname']/following-sibling::div")).getText(),expectedLastNameWarning);
-        Assert.assertEquals(driver.findElement(By.xpath("//input[@id='input-email']/following-sibling::div")).getText(),expectedEmailWarning);
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@id='input-lastname']/following-sibling::div")).getText(), expectedLastNameWarning);
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@id='input-email']/following-sibling::div")).getText(), expectedEmailWarning);
         Assert.assertEquals(driver.findElement(By.xpath("//input[@id='input-telephone']/following-sibling::div")).getText(), expectedPhoneWarning);
         Assert.assertEquals(driver.findElement(By.xpath("//input[@id='input-password']/following-sibling::div")).getText(), expectedPasswordWarning);
         Assert.assertEquals(driver.findElement(By.xpath("//div[@class='alert alert-danger alert-dismissible']")).getText(), expectedPolicyWarning);
 
-        driver.quit();
     }
 }

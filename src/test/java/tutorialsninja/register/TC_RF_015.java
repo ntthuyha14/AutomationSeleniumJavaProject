@@ -6,6 +6,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.sql.*;
@@ -15,23 +16,25 @@ import java.util.Locale;
 import static com.mysql.cj.conf.PropertyKey.PASSWORD;
 
 public class TC_RF_015 {
+    WebDriver driver;
+
+    @AfterMethod
+    public void tearDown(){
+        driver.quit();
+    }
 
     private CommonUtilsEmail CommonUtils;
     String url = "jdbc:mysql://localhost:3306/opencart_db";
     String user = "root";
     String password = null;
+
     @Test
     public void verifyDataTestingOfRegisteringAccount() {
 
-        WebDriver driver = new ChromeDriver();
+        driver = new ChromeDriver();
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
-        // Di chuyển Chrome sang màn hình phụ (ví dụ: monitor 2 nằm bên phải, offset x=1920px)
-        driver.manage().window().setPosition(new Point(1920, 0)); // 1920 = độ rộng màn hình chính
-
-        // Có thể set lại kích thước cho khớp màn hình phụ (fullHD 1920x1080 chẳng hạn)
-        driver.manage().window().setSize(new org.openqa.selenium.Dimension(1920, 1080));
         driver.manage().window().maximize();
         driver.get("http://localhost/opencart/");
 
@@ -79,14 +82,14 @@ public class TC_RF_015 {
 
 
             //Step4: Process the result set
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 firstNameStoredInDatabase = resultSet.getString("firstname");
                 lastNameStoredInDatabase = resultSet.getString("lastname");
                 emailStoredInDatabase = resultSet.getString("email");
             }
 
 
-        }  catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             //Clean up the resources

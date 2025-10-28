@@ -6,7 +6,10 @@ import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Properties;
 
 public class CommonUtils {
     public static boolean compareTwoScreenshots(String actualImagePath, String expectedImagePath) throws IOException {
@@ -23,6 +26,17 @@ public class CommonUtils {
         ImageDiff imgDifference = imgDiffer.makeDiff(expectedBImg, acutualBImg);
 
         return imgDifference.hasDiff();
+    }
+
+    public static Properties loadProperties(){
+        Properties  prop = new Properties();
+        try {
+            FileReader fr = new FileReader(System.getProperty("user.dir") + ("\\src\\test\\resources\\projectdata.properties"));
+            prop.load(fr);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return prop;
     }
 
 }

@@ -88,7 +88,7 @@ public class TC_RF_002 {
             boolean found = false;
             for (int i = messages.length - 1; i >= 0; i--) {
 
-            	Message message = messages[i];
+                Message message = messages[i];
 
                 if (message.getSubject().contains(expectedSubject)) {
                     found = true;
@@ -114,8 +114,8 @@ public class TC_RF_002 {
             inbox.close(false);
             store.close();
 
-        }catch(Exception e) {
-        	e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         driver.navigate().to(link);
@@ -123,37 +123,36 @@ public class TC_RF_002 {
 
         driver.quit();
 
-	}
-
-	 private static String getTextFromMessage(Message message) throws Exception {
-	        String result = "";
-	        if (message.isMimeType("text/plain")) {
-	            result = message.getContent().toString();
-	        } else if (message.isMimeType("text/html")) {
-	            result = message.getContent().toString();
-	        } else if (message.isMimeType("multipart/*")) {
-	            MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
-	            result = getTextFromMimeMultipart(mimeMultipart);
-	        }
-	        return result;
     }
 
-	 private static String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
-	        StringBuilder result = new StringBuilder();
-	        int count = mimeMultipart.getCount();
-	        for (int i = 0; i < count; i++) {
-	            BodyPart bodyPart = mimeMultipart.getBodyPart(i);
-	            if (bodyPart.isMimeType("text/plain")) {
-	                result.append(bodyPart.getContent());
-	            } else if (bodyPart.isMimeType("text/html")) {
-	                result.append(bodyPart.getContent());
-	            } else if (bodyPart.getContent() instanceof MimeMultipart) {
-	                result.append(getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent()));
-	            }
-	        }
-	        return result.toString();
-	 }
+    private static String getTextFromMessage(Message message) throws Exception {
+        String result = "";
+        if (message.isMimeType("text/plain")) {
+            result = message.getContent().toString();
+        } else if (message.isMimeType("text/html")) {
+            result = message.getContent().toString();
+        } else if (message.isMimeType("multipart/*")) {
+            MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
+            result = getTextFromMimeMultipart(mimeMultipart);
+        }
+        return result;
+    }
 
+    private static String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
+        StringBuilder result = new StringBuilder();
+        int count = mimeMultipart.getCount();
+        for (int i = 0; i < count; i++) {
+            BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+            if (bodyPart.isMimeType("text/plain")) {
+                result.append(bodyPart.getContent());
+            } else if (bodyPart.isMimeType("text/html")) {
+                result.append(bodyPart.getContent());
+            } else if (bodyPart.getContent() instanceof MimeMultipart) {
+                result.append(getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent()));
+            }
+        }
+        return result.toString();
+    }
 
 
 }

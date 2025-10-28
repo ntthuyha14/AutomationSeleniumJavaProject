@@ -1,43 +1,54 @@
 package tutorialsninja.register;
 
+import Utils.CommonUtils;
 import Utils.CommonUtilsEmail;
+import base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Properties;
 
-public class TC_RF_019 {
+public class TC_RF_019 extends Base {
     WebDriver driver;
+    Properties prop ;
 
-    @AfterTest
-    public void CloseChrome(){
-        driver.quit();
-    }
-
-    @Test
-    public void verifyLeadingAndTrailingSpaceWhileRegisteringAccount(){
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-        driver.manage().window().maximize();
-        driver.get("https://tutorialsninja.com/demo/");
-
+    @BeforeMethod
+    public void setup() {
+        driver = openBrowserAndApplication();
+        prop = CommonUtils.loadProperties();
         driver.findElement(By.xpath("//span[text()='My Account']")).click();
         driver.findElement(By.linkText("Register")).click();
+    }
 
-        String enteredFirstName = "     Arun     ";
+//    @AfterMethod
+//    public void tearDown() {
+//        if (driver != null) {
+//            driver.quit();
+//        }
+//    }
+
+    @Test
+    public void verifyLeadingAndTrailingSpaceWhileRegisteringAccount() {
+
+        String enteredFirstName = "     " + prop.getProperty("firstName") + "     ";
         driver.findElement(By.id("input-firstname")).sendKeys(enteredFirstName);
-        String enteredLastName = "     Motoori     ";
+        String enteredLastName = "     " + prop.getProperty("lastName") + "     ";
         driver.findElement(By.id("input-lastname")).sendKeys(enteredLastName);
         String enteredEmail = "     " + CommonUtilsEmail.generateBrandNewEmail() + "     ";
         driver.findElement(By.id("input-email")).sendKeys(enteredEmail);
-        String enteredTelephone = "     1234567890     ";
+        String enteredTelephone = "     " + prop.getProperty("phoneNumber") + "     ";
         driver.findElement(By.id("input-telephone")).sendKeys(enteredTelephone);
-        driver.findElement(By.id("input-password")).sendKeys("12345");
-        driver.findElement(By.id("input-confirm")).sendKeys("12345");
+        driver.findElement(By.id("input-password")).sendKeys(prop.getProperty("passWord"));
+        driver.findElement(By.id("input-confirm")).sendKeys(prop.getProperty("passWord"));
 
         driver.findElement(By.xpath("//input[@name='agree']")).click();
         driver.findElement(By.xpath("//input[@value='Continue']")).click();
@@ -46,6 +57,7 @@ public class TC_RF_019 {
 
         driver.findElement(By.linkText("Edit your account information")).click();
 
+        //Testcase Fail
         Assert.assertEquals(driver.findElement(By.id("input-firstname")).getAttribute("value"), enteredFirstName.trim());
         Assert.assertEquals(driver.findElement(By.id("input-lastname")).getAttribute("value"), enteredLastName.trim());
         Assert.assertEquals(driver.findElement(By.id("input-email")).getAttribute("value"), enteredEmail.trim());

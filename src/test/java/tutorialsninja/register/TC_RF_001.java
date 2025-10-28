@@ -1,38 +1,52 @@
 package tutorialsninja.register;
 
+import Utils.CommonUtils;
 import Utils.CommonUtilsEmail;
+import base.Base;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import pages.LandingPage;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.Properties;
 
-public class TC_RF_001 {
+public class TC_RF_001 extends Base {
+    WebDriver driver;
+    Properties prop;
 
-    @Test
-    public void verifyRegisteringWithMandatoryFields(){
-        WebDriverManager.chromedriver().setup();
+    @BeforeMethod
+    public void setup() {
+        driver = openBrowserAndApplication();
+        prop = CommonUtils.loadProperties();
+        LandingPage landingPage = new LandingPage(driver);
+        landingPage.clickOnMyAccount();
+        landingPage.selectRegisterOption();
+    }
 
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 
-        driver.manage().window().maximize();
-        driver.get("https://tutorialsninja.com/demo/");
+    @Test(priority = 1)
+    public void verifyRegisteringWithMandatoryFields() {
 
-        driver.findElement(By.xpath("//span[text()='My Account']")).click();
-        driver.findElement(By.linkText("Register")).click();
-
-        driver.findElement(By.id("input-firstname")).sendKeys("Arun");
-        driver.findElement(By.id("input-lastname")).sendKeys("Motoori");
+        driver.findElement(By.id("input-firstname")).sendKeys(prop.getProperty("firstName"));
+        driver.findElement(By.id("input-lastname")).sendKeys(prop.getProperty("lastName"));
         driver.findElement(By.id("input-email")).sendKeys(CommonUtilsEmail.generateBrandNewEmail());
-        driver.findElement(By.id("input-telephone")).sendKeys("1234567890");
-        driver.findElement(By.id("input-password")).sendKeys("12345");
-        driver.findElement(By.id("input-confirm")).sendKeys("12345");
+        driver.findElement(By.id("input-telephone")).sendKeys(prop.getProperty("phoneNumber"));
+        driver.findElement(By.id("input-password")).sendKeys(prop.getProperty("passWord"));
+        driver.findElement(By.id("input-confirm")).sendKeys(prop.getProperty("passWord"));
         driver.findElement(By.name("agree")).click();
         driver.findElement(By.xpath("//input[@value='Continue']")).click();
 
@@ -40,7 +54,7 @@ public class TC_RF_001 {
 
         String expectedHeading = "Your Account Has Been Created!";
 
-        Assert.assertEquals(driver.findElement(By.xpath("//div[@id='common-success']//h1")).getText(),expectedHeading);
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@id='common-success']//h1")).getText(), expectedHeading);
 
         String actualProperDetailOne = "Congratulations! Your new account has been successfully created!";
         String actualProperDetaiTwo = "You can now take advantage of member privileges to enhance your online shopping experience with us.";
@@ -57,7 +71,6 @@ public class TC_RF_001 {
 
         Assert.assertTrue(driver.findElement(By.linkText("Edit your account information")).isDisplayed());
 
-        driver.quit();
 
     }
 
