@@ -1,28 +1,42 @@
 package tutorialsninja.register;
 
+import base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
 import static org.openqa.selenium.By.*;
 
-public class TC_RF_023 {
-    @Test
-    public void verifyNavigatingToOtherPages(){
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-        driver.get("https://tutorialsninja.com/demo/");
+public class TC_RF_023 extends Base {
+    WebDriver driver;
 
-        driver.findElement(xpath("//span[text()='My Account']")).click();
-        driver.findElement(linkText("Register")).click();
+    @BeforeMethod
+    public void setup() {
+        driver = openBrowserAndApplication();
+        driver.findElement(By.xpath("//span[text()='My Account']")).click();
+        driver.findElement(By.linkText("Register")).click();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void verifyNavigatingToOtherPages() {
 
         driver.findElement(xpath("//a/i[@class='fa fa-phone']")).click();
         Assert.assertTrue(driver.findElement(xpath("//ul[@class='breadcrumb']//a[text()='Contact Us']")).isDisplayed());
@@ -45,7 +59,6 @@ public class TC_RF_023 {
         driver.navigate().back();
 
 
-
         driver.findElement(xpath("//button[@class='btn btn-default btn-lg']")).click();
         Assert.assertTrue(driver.findElement(xpath("//ul[@class='breadcrumb']//a[text()='Search']")).isDisplayed());
         driver.navigate().back();
@@ -59,7 +72,7 @@ public class TC_RF_023 {
         driver.navigate().back();
 
         driver.findElement(By.xpath("//a[@href='https://tutorialsninja.com/demo/index.php?route=common/home']")).click();
-        Assert.assertEquals(driver.getCurrentUrl(),"https://tutorialsninja.com/demo/index.php?route=common/home");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://tutorialsninja.com/demo/index.php?route=common/home");
         driver.navigate().back();
 
         driver.findElement(By.linkText("login page")).click();
@@ -67,7 +80,7 @@ public class TC_RF_023 {
         driver.navigate().back();
 
         driver.findElement(By.xpath("//a[@class='agree']/b[text()='Privacy Policy']")).click();
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement xOption = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='×']")));
         Assert.assertTrue(xOption.isDisplayed());
         xOption.click();

@@ -1,26 +1,44 @@
 package tutorialsninja.register;
 
+import Utils.CommonUtils;
+import Utils.CommonUtilsEmail;
+import base.Base;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Properties;
 
-public class TC_RF_007 {
+public class TC_RF_007 extends Base {
 
-    @Test
-    public void verifyDifferentWaysToRegisterPage(){
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.manage().window().maximize();
-        driver.get("https://tutorialsninja.com/demo/");
+    WebDriver driver;
+    Properties prop;
 
+    @BeforeMethod
+    public void setup() {
+        driver = openBrowserAndApplication();
+        prop = CommonUtils.loadProperties();
         driver.findElement(By.xpath("//span[text()='My Account']")).click();
         driver.findElement(By.linkText("Register")).click();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void verifyDifferentWaysToRegisterPage() {
 
         String expectedRegisterText = "Register Account";
         Assert.assertEquals(driver.findElement(By.xpath("//div[@id='content']/h1")).getText(), expectedRegisterText);

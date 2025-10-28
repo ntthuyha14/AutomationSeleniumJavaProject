@@ -6,6 +6,7 @@ import java.time.Duration;
 
 
 import Utils.CommonUtils;
+import base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
@@ -13,25 +14,38 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 //import utils.CommonUtils;
 
-public class TC_RF_018 {
+public class TC_RF_018 extends Base {
 
-    @Test
-    public void verifyRegisteringAccountFieldsHeightWidthAligment() throws IOException {
+    WebDriver driver;
 
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-        driver.get("https://tutorialsninja.com/demo");
+    @BeforeMethod
+    public void setup() {
+        driver = openBrowserAndApplication();
 
         driver.findElement(By.xpath("//span[text()='My Account']")).click();
         driver.findElement(By.linkText("Register")).click();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void verifyRegisteringAccountFieldsHeightWidthAligment() throws IOException {
 
         String expectedHeight = "34px";
         String expectedWidth = "701.25px";
@@ -203,7 +217,7 @@ public class TC_RF_018 {
         Assert.assertEquals(actualTelephoneFieldHeight, expectedHeight);
         Assert.assertEquals(actualTelephoneFieldWidth, expectedWidth);
 
-       expectedWarning = "Telephone must be between 3 and 32 characters!";
+        expectedWarning = "Telephone must be between 3 and 32 characters!";
 
         continueButton = driver.findElement(By.xpath("//input[@value='Continue']"));
         telephoneField.clear();
@@ -390,7 +404,7 @@ public class TC_RF_018 {
         File srcScreenshot = ts.getScreenshotAs(OutputType.FILE);
         FileHandler.copy(srcScreenshot, new File(System.getProperty("user.dir") + "\\Screenshots\\registerPageActualAligment.png"));
 
-        Assert.assertFalse(CommonUtils.compareTwoScreenshots(System.getProperty("user.dir")+"\\Screenshots\\registerPageActualAligment.png", System.getProperty("user.dir")+"\\Screenshots\\registerPageExpectedAligment.png"));
+        Assert.assertFalse(CommonUtils.compareTwoScreenshots(System.getProperty("user.dir") + "\\Screenshots\\registerPageActualAligment.png", System.getProperty("user.dir") + "\\Screenshots\\registerPageExpectedAligment.png"));
 
         driver.quit();
 
