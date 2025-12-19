@@ -1,12 +1,9 @@
 package tutorialsninja.register;
 
-import base.Base;
+import tutorialsninja.base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -70,6 +67,8 @@ public class TC_RF_023 extends Base {
         driver.findElement(xpath("//ul[@class='breadcrumb']//a[text()='Account']")).click();
         Assert.assertTrue(driver.findElement(xpath("//ul[@class='breadcrumb']//a[text()='Login']")).isDisplayed());
         driver.navigate().back();
+
+
 
         driver.findElement(By.xpath("//a[@href='https://tutorialsninja.com/demo/index.php?route=common/home']")).click();
         Assert.assertEquals(driver.getCurrentUrl(), "https://tutorialsninja.com/demo/index.php?route=common/home");

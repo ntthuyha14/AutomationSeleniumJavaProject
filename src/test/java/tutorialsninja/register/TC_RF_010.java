@@ -1,31 +1,20 @@
 package tutorialsninja.register;
 
 import Utils.CommonUtils;
-import base.Base;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import tutorialsninja.base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Properties;
 
 import org.openqa.selenium.io.FileHandler;
-import ru.yandex.qatools.ashot.comparison.ImageDiff;
-import ru.yandex.qatools.ashot.comparison.ImageDiffer;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
 
 
 public class TC_RF_010 extends Base {
