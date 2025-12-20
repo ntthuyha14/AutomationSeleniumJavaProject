@@ -15,15 +15,21 @@ public class LandingPage{
 
     @FindBy (xpath = "//span[text()='My Account']")
     private WebElement myAccountDropMenu;
-
     public void clickOnMyAccount(){
         myAccountDropMenu.click();
     }
 
     @FindBy (linkText = "Register")
     private WebElement registeroption;
-
-    public void selectRegisterOption(){
+    public RegisterPage selectRegisterOption() {
         registeroption.click();
+        return new RegisterPage(driver);
+    }
+
+    @FindBy (linkText = "Login")
+    private WebElement loginoption;
+    public LoginPage selectLoginOption() {
+        loginoption.click();
+        return new LoginPage(driver);
     }
 }

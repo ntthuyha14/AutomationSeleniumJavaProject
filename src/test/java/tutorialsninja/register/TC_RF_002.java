@@ -125,7 +125,7 @@ public class TC_RF_002 {
 
     }
 
-    private static String getTextFromMessage(Message message) throws Exception {
+    public static String getTextFromMessage(Message message) throws Exception {
         String result = "";
         if (message.isMimeType("text/plain")) {
             result = message.getContent().toString();
@@ -138,7 +138,7 @@ public class TC_RF_002 {
         return result;
     }
 
-    private static String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
+    public static String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
         StringBuilder result = new StringBuilder();
         int count = mimeMultipart.getCount();
         for (int i = 0; i < count; i++) {
