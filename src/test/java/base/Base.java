@@ -32,11 +32,4 @@ public class Base {
         return driver;
     }
 
-    public String getPageURL(WebDriver driver) {
-        return driver.getCurrentUrl();
-    }
-
-    public String getPageTitle(WebDriver driver) {
-        return driver.getTitle();
-    }
 }
