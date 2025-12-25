@@ -1,7 +1,6 @@
 package tutorialsninja.register;
 
 import Utils.CommonUtils;
-import Utils.CommonUtilsEmail;
 import tutorialsninja.base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -36,7 +35,7 @@ public class TC_RF_011 extends Base {
     public void verifyRegisterAccountByProvidingInvalidTelephone() {
         driver.findElement(By.id("input-firstname")).sendKeys(prop.getProperty("firstName"));
         driver.findElement(By.id("input-lastname")).sendKeys(prop.getProperty("lastName"));
-        driver.findElement(By.id("input-email")).sendKeys(CommonUtilsEmail.generateBrandNewEmail());
+        driver.findElement(By.id("input-email")).sendKeys(CommonUtils.generateBrandNewEmail());
         driver.findElement(By.id("input-telephone")).sendKeys(prop.getProperty("phoneNumber"));
         driver.findElement(By.id("input-password")).sendKeys(prop.getProperty("passWord"));
         driver.findElement(By.id("input-confirm")).sendKeys(prop.getProperty("passWord"));

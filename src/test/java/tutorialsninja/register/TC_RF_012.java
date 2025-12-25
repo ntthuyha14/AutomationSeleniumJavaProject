@@ -1,6 +1,6 @@
 package tutorialsninja.register;
 
-import Utils.CommonUtilsEmail;
+import Utils.CommonUtils;
 import tutorialsninja.base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -44,7 +44,7 @@ public class TC_RF_012 extends Base {
                 .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
                 .sendKeys("Motoori").pause(Duration.ofSeconds(1))
                 .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                .sendKeys(CommonUtilsEmail.generateBrandNewEmail()).pause(Duration.ofSeconds(1))
+                .sendKeys(CommonUtils.generateBrandNewEmail()).pause(Duration.ofSeconds(1))
                 .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
                 .sendKeys("123456789").pause(Duration.ofSeconds(1))
                 .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))

@@ -1,7 +1,6 @@
 package tutorialsninja.register;
 
 import Utils.CommonUtils;
-import Utils.CommonUtilsEmail;
 import tutorialsninja.base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -37,7 +36,7 @@ public class TC_RF_019 extends Base {
         driver.findElement(By.id("input-firstname")).sendKeys(enteredFirstName);
         String enteredLastName = "     " + prop.getProperty("lastName") + "     ";
         driver.findElement(By.id("input-lastname")).sendKeys(enteredLastName);
-        String enteredEmail = "     " + CommonUtilsEmail.generateBrandNewEmail() + "     ";
+        String enteredEmail = "     " + CommonUtils.generateBrandNewEmail() + "     ";
         driver.findElement(By.id("input-email")).sendKeys(enteredEmail);
         String enteredTelephone = "     " + prop.getProperty("phoneNumber") + "     ";
         driver.findElement(By.id("input-telephone")).sendKeys(enteredTelephone);

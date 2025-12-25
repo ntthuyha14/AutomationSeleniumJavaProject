@@ -1,8 +1,7 @@
 package tutorialsninja.register;
 
-import Utils.CommonUtilsEmail;
+import Utils.CommonUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -13,8 +12,6 @@ import java.sql.*;
 import java.time.Duration;
 import java.util.Locale;
 
-import static com.mysql.cj.conf.PropertyKey.PASSWORD;
-
 public class TC_RF_015 {
     WebDriver driver;
 
@@ -23,7 +20,7 @@ public class TC_RF_015 {
         driver.quit();
     }
 
-    private CommonUtilsEmail CommonUtils;
+    private CommonUtils CommonUtils;
     String url = "jdbc:mysql://localhost:3306/opencart_db";
     String user = "root";
     String password = null;
@@ -47,7 +44,7 @@ public class TC_RF_015 {
         String lastNameInputData = "Motoori";
         driver.findElement(By.id("input-lastname")).sendKeys(lastNameInputData);
 
-        String emailInputData = CommonUtilsEmail.generateBrandNewEmail().toLowerCase(Locale.ROOT);
+        String emailInputData = CommonUtils.generateBrandNewEmail().toLowerCase(Locale.ROOT);
         driver.findElement(By.id("input-email")).sendKeys(emailInputData);
 
         String passwordInputData = "123456";

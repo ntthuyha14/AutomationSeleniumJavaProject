@@ -16,7 +16,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 
 public class CommonUtils {
     public static boolean compareTwoScreenshots(String actualImagePath, String expectedImagePath) {
@@ -88,5 +90,24 @@ public class CommonUtils {
         }
         return driver;
     }
+
+    public static String generateBrandNewEmail(){
+        Date date = new Date();
+        String dateString = date.toString();
+        String dateStringWithoutSpaces = dateString.replaceAll("\\s", "");
+        String dateStringWithoutSpacesAndColons = dateStringWithoutSpaces.replaceAll("\\:", "");
+        String brandNewEmail = dateStringWithoutSpacesAndColons + "@gmail.com";
+        return brandNewEmail;
+    }
+    
+    public static String validEmailRandomGenerator(){
+        String[] validEmails = {"amotooricap1@gmail.com", "amotooricap2@gmail.com",
+                "amotooricap3@gmail.com", "amotooricap4@gmail.com",
+                "amotooricap5@gmail.com", "amotooricap6@gmail.com", "amotooricap7@gmail.com", "amotooricap9@gmail.com"};
+        Random random = new Random();
+        int index = random.nextInt(validEmails.length);
+        return validEmails[index];
+    }
+    
 
 }

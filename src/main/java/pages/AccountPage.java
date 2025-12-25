@@ -17,10 +17,12 @@ public class AccountPage {
     @FindBy(linkText = "Edit your account information")
     private WebElement editYourAccountInformation;
     public boolean editYourAccountInformationDisplay(){
+        
         return editYourAccountInformation.isDisplayed();
     }
 
     public void clickEditAccountInformation(){
+        
         editYourAccountInformation.click();
     }
 
@@ -58,5 +60,22 @@ public class AccountPage {
     public String getValueTelephone(){
         return telephoneField.getAttribute("value");
     }
+
+    @FindBy (xpath = "//ul[@class='breadcrumb']//a[text()='Account']")
+    private WebElement accountBreadcrumb;
+    public boolean didWeNavigateToAccountPage(){
+        return accountBreadcrumb.isDisplayed();
+    }
+    
+    @FindBy (xpath = "//div[@class='list-group']//a[text()='Logout']")
+    private WebElement logoutRightColumnOption;
+    public boolean isUserLoggedIn(){
+        return logoutRightColumnOption.isDisplayed();
+    }
+    
+    public void clickOnLogoutRightColumnOption(){
+        logoutRightColumnOption.click();
+    }
+    
 
 }

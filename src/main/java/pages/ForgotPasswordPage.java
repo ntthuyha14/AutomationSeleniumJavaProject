@@ -19,5 +19,10 @@ public class ForgotPasswordPage {
         return forgotPasswordBreadcrumb.isDisplayed();
     }
 
+    @FindBy (xpath = "//div[@id='content']//h1")
+    private WebElement contentForgottentPassword;
+    public String getContentForgottenPassword(){
+        return contentForgottentPassword.getText();
+    }
 }
 

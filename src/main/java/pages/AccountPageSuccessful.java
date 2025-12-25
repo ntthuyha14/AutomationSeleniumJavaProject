@@ -50,7 +50,7 @@ public class AccountPageSuccessful {
     public boolean didWeNavigateToAccountSuccessPage(){
         return accountSuccessPageBreadcrumb.isDisplayed();
     }
-
+    
 
 
 

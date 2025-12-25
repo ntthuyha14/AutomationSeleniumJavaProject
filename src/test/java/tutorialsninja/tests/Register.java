@@ -1,13 +1,10 @@
 package tutorialsninja.tests;
 
 import Utils.CommonUtils;
-import Utils.CommonUtilsEmail;
-import net.bytebuddy.asm.Advice;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +17,6 @@ import pages.*;
 import tutorialsninja.base.Base;
 
 import javax.mail.*;
-import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
 import java.io.File;
 import java.io.IOException;
@@ -31,8 +27,6 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 
-import static org.openqa.selenium.By.linkText;
-import static org.openqa.selenium.By.xpath;
 
 public class Register extends Base {
     private static final Logger log = LoggerFactory.getLogger(Register.class);
@@ -72,7 +66,7 @@ public class Register extends Base {
 
         registerPage.enterFirstName(prop.getProperty("firstName"));
         registerPage.enterLastName(prop.getProperty("lastName"));
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone(prop.getProperty("phoneNumber"));
         registerPage.enterPassword(prop.getProperty("passWord"));
         registerPage.enterConfirmPassword(prop.getProperty("confirmPassword"));
@@ -212,7 +206,7 @@ public class Register extends Base {
 
         registerPage.enterFirstName(prop.getProperty("firstName"));
         registerPage.enterLastName(prop.getProperty("lastName"));
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone(prop.getProperty("phoneNumber"));
         registerPage.enterPassword(prop.getProperty("passWord"));
         registerPage.enterConfirmPassword(prop.getProperty("confirmPassword"));
@@ -269,7 +263,7 @@ public class Register extends Base {
     public void verifyRegisteingAccountBySubscribingToNewsletter() {
         registerPage.enterFirstName(prop.getProperty("firstName"));
         registerPage.enterLastName(prop.getProperty("lastName"));
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone(prop.getProperty("phoneNumber"));
         registerPage.enterPassword(prop.getProperty("passWord"));
         registerPage.enterConfirmPassword(prop.getProperty("confirmPassword"));
@@ -290,7 +284,7 @@ public class Register extends Base {
 
         registerPage.enterFirstName(prop.getProperty("firstName"));
         registerPage.enterLastName(prop.getProperty("lastName"));
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone(prop.getProperty("phoneNumber"));
         registerPage.enterPassword(prop.getProperty("passWord"));
         registerPage.enterConfirmPassword(prop.getProperty("confirmPassword"));
@@ -330,7 +324,7 @@ public class Register extends Base {
     public void verifyDifferentPasscodeConfirm() {
         registerPage.enterFirstName(prop.getProperty("firstName"));
         registerPage.enterLastName(prop.getProperty("lastName"));
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone(prop.getProperty("phoneNumber"));
         registerPage.enterPassword(prop.getProperty("passWord"));
         registerPage.enterConfirmPassword("abcdf");
@@ -428,7 +422,7 @@ public class Register extends Base {
     public void verifyRegisterAccountByProvidingInvalidTelephone() {
         registerPage.enterFirstName(prop.getProperty("firstName"));
         registerPage.enterLastName(prop.getProperty("lastName"));
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone(prop.getProperty("invalidPhoneNumber"));
         registerPage.enterPassword(prop.getProperty("passWord"));
         registerPage.enterConfirmPassword(prop.getProperty("confirmPassword"));
@@ -458,40 +452,11 @@ public class Register extends Base {
 
     @Test (priority = 12)
     public void verifyRegisteringAccountUsingKeyboardKeys() {
-
-        Actions action = new Actions(driver);
-        for (int i = 1; i <= 23; i++) {
-            action.sendKeys(Keys.TAB).perform();
-        }
-
-        action.sendKeys("Arun").pause(Duration.ofSeconds(1))
-                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                .sendKeys("Motoori").pause(Duration.ofSeconds(1))
-                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                .sendKeys(CommonUtilsEmail.generateBrandNewEmail()).pause(Duration.ofSeconds(1))
-                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                .sendKeys("123456789").pause(Duration.ofSeconds(1))
-                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                .sendKeys("12345").pause(Duration.ofSeconds(1))
-                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                .sendKeys("12345").pause(Duration.ofSeconds(1))
-                //mặc định là Option No nên cần Keys.Left để chọn Yes
-                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                .sendKeys(Keys.LEFT).pause(Duration.ofSeconds(1))
-                //Keys.TAB: Privacy Policy
-                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                //Keys.TAB: Check Box của Privacy Policy
-                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                //Keys.SPACE: select vào CheckBox
-                .sendKeys(Keys.SPACE).pause(Duration.ofSeconds(1))
-                //Keys.TAB và Keys.ENTER : button Continue
-                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
-                .sendKeys(Keys.ENTER).build().perform();
-
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='column-right']//a[text()='Logout']")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//ul[@class='breadcrumb']//a[text()='Success']")).isDisplayed());
-
-        driver.quit();
+        driver= presskeyMultipleTimes(driver, Keys.TAB, 23);
+        driver= enterDetailsIntoRegisterAccountPageFieldS();
+        accountPageSuccessful = new AccountPageSuccessful(driver);
+        Assert.assertTrue(accountPageSuccessful.rightSideLogoutOptionDisplay());
+        Assert.assertTrue(accountPageSuccessful.didWeNavigateToAccountSuccessPage());
 
     }
 
@@ -512,8 +477,6 @@ public class Register extends Base {
         Assert.assertEquals(registerPage.getTextFromHolderTelephoneField(), expectedTelephonePlaceHolderText);
         Assert.assertEquals(registerPage.getTextFromHolderPasswordField(), expectedPassWordPlaceHolderText);
         Assert.assertEquals(registerPage.getTextFromHolderConfirmField(), expectedConfirmPassWordPlaceHolderText);
-
-        driver.quit();
 
     }
 
@@ -561,7 +524,7 @@ public class Register extends Base {
         registerPage.enterFirstName(firstNameInputData);
         String lastNameInputData = "Motoori";
         registerPage.enterLastName(lastNameInputData);
-        String emailInputData = CommonUtilsEmail.generateBrandNewEmail().toLowerCase(Locale.ROOT);
+        String emailInputData = CommonUtils.generateBrandNewEmail().toLowerCase(Locale.ROOT);
         registerPage.enterEmail(emailInputData);
         String passwordInputData = "123456";
         registerPage.enterPassword(passwordInputData);
@@ -650,7 +613,7 @@ public class Register extends Base {
 
         registerPage.enterFirstName("Arun");
         registerPage.enterLastName("Motoori");
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone("1234567890");
         registerPage.selectYesNewsletterOption();
         registerPage.selectPrivacyPolicy();
@@ -1016,7 +979,7 @@ public class Register extends Base {
         registerPage.enterFirstName(enteredFirstName);
         String enteredLastName = "     " + prop.getProperty("lastName") + "     ";
         registerPage.enterLastName(enteredLastName);
-        String enteredEmail = "     " + CommonUtilsEmail.generateBrandNewEmail() + "     ";
+        String enteredEmail = "     " + CommonUtils.generateBrandNewEmail() + "     ";
         registerPage.enterEmail(enteredEmail);
         String enteredTelephone = "     " + prop.getProperty("phoneNumber") + "     ";
         registerPage.enterTelephone(enteredTelephone);
@@ -1042,7 +1005,7 @@ public class Register extends Base {
 
         registerPage.enterFirstName(prop.getProperty("firstName"));
         registerPage.enterLastName(prop.getProperty("lastName"));
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone(prop.getProperty("phoneNumber"));
         registerPage.enterPassword(prop.getProperty("passWord"));
         registerPage.enterConfirmPassword(prop.getProperty("passWord"));
@@ -1187,7 +1150,7 @@ public class Register extends Base {
     public void verifyNotFillConfirmField() {
         registerPage.enterFirstName(prop.getProperty("firstName"));
         registerPage.enterLastName(prop.getProperty("lastName"));
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone(prop.getProperty("phoneNumber"));
         registerPage.enterPassword(prop.getProperty("passWord"));
         registerPage.selectPrivacyPolicy();
@@ -1224,7 +1187,7 @@ public class Register extends Base {
 
         registerPage.enterFirstName(prop.getProperty("firstName"));
         registerPage.enterLastName(prop.getProperty("lastName"));
-        registerPage.enterEmail(CommonUtilsEmail.generateBrandNewEmail());
+        registerPage.enterEmail(CommonUtils.generateBrandNewEmail());
         registerPage.enterTelephone(prop.getProperty("phoneNumber"));
         registerPage.enterPassword(prop.getProperty("passWord"));
         registerPage.enterConfirmPassword(prop.getProperty("passWord"));

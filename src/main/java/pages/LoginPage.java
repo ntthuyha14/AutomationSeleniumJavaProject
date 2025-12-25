@@ -32,6 +32,58 @@ public class LoginPage {
         return loginBreadcrumb.isDisplayed();
     }
 
+    @FindBy (id = "input-email")
+    private WebElement inputEmailField;
+    public void enterInputEmailField(String emailFieldText){
+        inputEmailField.sendKeys(emailFieldText);
+    }
+
+    @FindBy (id = "input-password")
+    private WebElement inputPasswordField;
+    public void enterInputPassWordField(String passwordFieldText){
+        inputPasswordField.sendKeys(passwordFieldText);
+    }
+    
+    @FindBy (xpath = "//input[@class='btn btn-primary']")
+    private WebElement buttonLogin;
+    public AccountPage clickOnButtonLogin(){
+        buttonLogin.click();
+        return new AccountPage(driver);
+    }
+    
+    @FindBy (xpath = "//div[@class='alert alert-danger alert-dismissible']")
+    private WebElement warningMessage;
+    public String getWarningMessage(){
+        return warningMessage.getText();
+    }
+
+    @FindBy (xpath = "//div[@class='form-group']//a[text()='Forgotten Password']")
+    private WebElement forgottenPasswordOption;
+    public ForgotPasswordPage clickOnForgottenPasswordOption(){
+        forgottenPasswordOption.click();
+        return new ForgotPasswordPage(driver);
+    }
+    
+    public boolean isForgottenPasswordAvailable(){
+        return forgottenPasswordOption.isDisplayed();
+    }
+    
+    public String getPlaceHolderEmailField(){
+        return inputEmailField.getAttribute("placeholder");
+    }
+    
+    public String getPlaceHolderPasswordField(){
+        return inputPasswordField.getAttribute("placeholder");
+    }
+    
+    @FindBy (xpath = "//a[@class='list-group-item'][text()='My Account']")
+    private WebElement myAccountRightColumnOption;
+    public AccountPage clickOnMyAccountRightColumnOption(){
+        myAccountRightColumnOption.click();
+        return new AccountPage(driver);
+    }
+    
+
 
 
 }
