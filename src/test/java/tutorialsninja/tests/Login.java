@@ -161,4 +161,22 @@ public class Login extends Base {
     public void verifyTextEnteredIntoPasswordFieldIsToggledToHideItsVisibility(){
         Assert.assertEquals(loginPage.getTypePasswordField(), "password");
     }
+
+    @Test (priority = 14)
+    public void verifyCopyingOfTextEnteredIntoPasswordField(){
+        String passwordText = prop.getProperty("passwordLogin");
+        loginPage.enterInputPassWordField(passwordText);
+        driver = loginPage.selectPasswordFieldTextAndCopy(driver);
+        driver = loginPage.pastCopiedTextIntoEmailField(driver);
+        Assert.assertNotEquals(loginPage.getTextCopiedIntoEnteredPasswordField(), passwordText);
+    }
+
+    @Test (priority = 15)
+    public void verifyPasswordFieldIsStoreInHTMLCodeOfThePage(){
+        String passwordText = prop.getProperty("passwordLogin");
+        loginPage.enterInputPassWordField(passwordText);
+        Assert.assertFalse(getHTMLCodeOfThePage().contains(passwordText));
+        loginPage.clickOnButtonLogin();
+        Assert.assertFalse(getHTMLCodeOfThePage().contains(passwordText));
+    }
 }

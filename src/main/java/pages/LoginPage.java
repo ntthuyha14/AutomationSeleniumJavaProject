@@ -1,7 +1,9 @@
 package pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -86,7 +88,24 @@ public class LoginPage {
     public String getTypePasswordField(){
         return inputPasswordField.getDomAttribute("type");
     }
-    
+
+    public WebDriver selectPasswordFieldTextAndCopy(WebDriver driver){
+        Actions actions = new Actions(driver);
+        actions.doubleClick(inputPasswordField).keyDown(Keys.CONTROL).sendKeys("c").keyUp(Keys.CONTROL);
+        return driver;
+    }
+
+    public WebDriver pastCopiedTextIntoEmailField(WebDriver driver){
+        Actions actions = new Actions(driver);
+        actions.click(inputEmailField).keyDown(Keys.CONTROL).sendKeys("v").keyUp(Keys.CONTROL);
+        return driver;
+    }
+
+    public String getTextCopiedIntoEnteredPasswordField(){
+        return inputEmailField.getDomAttribute("value");
+    }
+
+
 
 
 

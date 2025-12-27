@@ -112,4 +112,8 @@ public class Base {
                 .sendKeys(Keys.ENTER).build().perform();
         return driver;
     }
+
+    public String getHTMLCodeOfThePage(){
+        return driver.getPageSource();
+    }
 }
