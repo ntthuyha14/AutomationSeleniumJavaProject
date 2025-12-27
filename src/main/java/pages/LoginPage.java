@@ -82,6 +82,10 @@ public class LoginPage {
         myAccountRightColumnOption.click();
         return new AccountPage(driver);
     }
+
+    public String getTypePasswordField(){
+        return inputPasswordField.getDomAttribute("type");
+    }
     
 
 

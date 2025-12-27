@@ -32,12 +32,12 @@ public class Login extends Base {
         loginPage = landingPage.selectLoginOption();
     }
     
-//    @AfterMethod
-//    public void tearDown(){
-//        if (driver != null){
-//            driver.quit();
-//        }
-//    }
+    @AfterMethod
+    public void tearDown(){
+        if (driver != null){
+            driver.quit();
+        }
+    }
 
     @Test(priority = 1)
     public void verifyLoginWithValidCredentails(){
@@ -126,7 +126,39 @@ public class Login extends Base {
         accountPage.clickEditAccountInformation();
         loginPage = new LoginPage(driver);
         Assert.assertTrue(loginPage.didWeNavigateToLoginPage());
-      
-        
+    }
+
+    @Test (priority = 11)
+    public void verifyLoginWithInactiveCredentials(){
+        loginPage.enterInputEmailField(prop.getProperty("inActiveEmail"));
+        loginPage.enterInputPassWordField(prop.getProperty("inActivePassword"));
+        accountPage = loginPage.clickOnButtonLogin();
+        Assert.assertEquals(loginPage.getWarningMessage(), prop.getProperty("warningMessage"));
+
+    }
+
+    @Test (priority = 12)
+    public void verifyNumberOfUnsuccessfulLoginAttempts() throws InterruptedException {
+        loginPage.enterInputEmailField(CommonUtils.generateBrandNewEmail());
+        loginPage.enterInputPassWordField(prop.getProperty("passwordLogin"));
+        loginPage.clickOnButtonLogin();
+        Assert.assertEquals(loginPage.getWarningMessage(), prop.getProperty("warningMessage"));
+        loginPage.clickOnButtonLogin();
+        Assert.assertEquals(loginPage.getWarningMessage(), prop.getProperty("warningMessage"));
+        loginPage.clickOnButtonLogin();
+        Assert.assertEquals(loginPage.getWarningMessage(), prop.getProperty("warningMessage"));
+        loginPage.clickOnButtonLogin();
+        Assert.assertEquals(loginPage.getWarningMessage(), prop.getProperty("warningMessage"));
+        loginPage.clickOnButtonLogin();
+        Assert.assertEquals(loginPage.getWarningMessage(), prop.getProperty("warningMessage"));
+        loginPage.clickOnButtonLogin();
+        String expectedWarningLoginAttempts = "Warning: Your account has exceeded allowed number of login attempts." +
+                " Please try again in 1 hour.";
+        Assert.assertEquals(loginPage.getWarningMessage(), expectedWarningLoginAttempts);
+    }
+
+    @Test (priority = 13)
+    public void verifyTextEnteredIntoPasswordFieldIsToggledToHideItsVisibility(){
+        Assert.assertEquals(loginPage.getTypePasswordField(), "password");
     }
 }
