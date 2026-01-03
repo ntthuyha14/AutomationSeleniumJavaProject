@@ -12,10 +12,7 @@ import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.internet.MimeMultipart;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
@@ -107,6 +104,17 @@ public class CommonUtils {
         Random random = new Random();
         int index = random.nextInt(validEmails.length);
         return validEmails[index];
+    }
+
+    public static void setProperties(String propertyKey, String propertyValue, Properties prop){
+        prop.getProperty(propertyKey, propertyValue);
+        FileWriter fr = null;
+        try{
+            fr = new FileWriter(System.getProperty("user.dir") + "\\src\\test\\resources\\projectdata.properties");
+            prop.store(fr, "");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
     
 

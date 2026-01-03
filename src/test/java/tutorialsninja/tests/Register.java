@@ -1033,7 +1033,7 @@ public class Register extends Base {
     @Test (priority = 23)
     public void verifyNavigatingToOtherPages() {
 
-        ContactUsPage contactUsPage = registerPage.clickOnphoneIconOption();
+        contactUsPage = registerPage.clickOnphoneIconOption();
         Assert.assertTrue(contactUsPage.didWeNavigateToContactUsPage());
         navigateBack(driver);
 

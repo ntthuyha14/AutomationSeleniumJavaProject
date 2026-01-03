@@ -73,8 +73,22 @@ public class AccountPage {
         return logoutRightColumnOption.isDisplayed();
     }
     
-    public void clickOnLogoutRightColumnOption(){
+    public LogoutPage clickOnLogoutRightColumnOption(){
         logoutRightColumnOption.click();
+        return new LogoutPage(driver);
+    }
+
+    @FindBy (xpath = "//a[text()='Change your password']")
+    private WebElement changePassWord;
+    public ChangePasswordPage clickChangPassword(){
+        changePassWord.click();
+        return new ChangePasswordPage(driver);
+    }
+
+    @FindBy (xpath = "//div[@class='alert alert-success alert-dismissible']")
+    private WebElement alertUpdatedPassword;
+    public String getAlertUpdatedPasswordSuccessful(){
+        return alertUpdatedPassword.getText();
     }
     
 

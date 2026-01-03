@@ -116,4 +116,12 @@ public class Base {
     public String getHTMLCodeOfThePage(){
         return driver.getPageSource();
     }
+
+    public String getPageTitle(WebDriver driver){
+        return driver.getTitle();
+    }
+
+    public  String getURLPage(WebDriver driver){
+        return driver.getCurrentUrl();
+    }
 }
