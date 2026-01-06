@@ -1,6 +1,7 @@
 package tutorialsninja.tests;
 
 import Utils.CommonUtils;
+import Utils.MyXLSReader;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -22,10 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.time.Duration;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.NoSuchElementException;
-import java.util.Properties;
 
 
 public class Register extends Base {
@@ -44,6 +43,7 @@ public class Register extends Base {
     SearchPage searchPage;
     ForgotPasswordPage forgotPasswordPage;
     AboutUsPage aboutUsPage;
+    public MyXLSReader myXLSReader;
 
     @BeforeMethod
     public void setup() {
@@ -609,7 +609,7 @@ public class Register extends Base {
     }
 
     @Test(priority = 17, dataProvider="passwordSupplier")
-    public void verifyRegisteringAccountAndCheckingPasswordComplexityStandards(String passwordText) throws InterruptedException {
+    public void verifyRegisteringAccountAndCheckingPasswordComplexityStandards(HashMap<String, String> hMap) throws InterruptedException {
 
         registerPage.enterFirstName("Arun");
         registerPage.enterLastName("Motoori");
@@ -617,8 +617,8 @@ public class Register extends Base {
         registerPage.enterTelephone("1234567890");
         registerPage.selectYesNewsletterOption();
         registerPage.selectPrivacyPolicy();
-        registerPage.enterPassword(passwordText);
-        registerPage.enterConfirmPassword(passwordText);
+        registerPage.enterPassword(hMap.get("Passwords"));
+        registerPage.enterConfirmPassword(hMap.get("Passwords"));
         registerPage.clickOnContinueButton();
 
         // This TestCase is Fail
@@ -644,7 +644,10 @@ public class Register extends Base {
 
     @DataProvider(name="passwordSupplier")
     public Object[][] supplyPasswords() {
-        Object[][] data = {{"12345"},{"abcdefghi"},{"abcd1234"},{"abcd123$"},{"ABCD456#"}};
+        String filepath = System.getProperty("user.dir")
+                + "\\src\\test\\resources\\TutorialsNinjaData.xlsx";
+        MyXLSReader myXLSReader = new MyXLSReader(filepath);
+        Object[][] data = CommonUtils.getTestData(myXLSReader, "RegisterTestSupplyPasswords", "Data");
         return data;
     }
 
