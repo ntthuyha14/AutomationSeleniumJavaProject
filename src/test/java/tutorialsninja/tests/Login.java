@@ -18,7 +18,7 @@ import java.time.Duration;
 import java.util.Properties;
 
 public class Login extends Base {
-    WebDriver driver; 
+    public WebDriver driver;
     Properties prop;
     LandingPage landingPage;
     LoginPage loginPage;
@@ -183,6 +183,7 @@ public class Login extends Base {
         Assert.assertNotEquals(loginPage.getTextCopiedIntoEnteredPasswordField(), passwordText);
     }
 
+    //TestCase Failed => Trong PageSource có thông tin passcode
     @Test (priority = 15)
     public void verifyPasswordFieldIsStoreInHTMLCodeOfThePage(){
         String passwordText = prop.getProperty("passwordLogin");
@@ -225,7 +226,7 @@ public class Login extends Base {
         Assert.assertEquals(accountPage.getAlertUpdatedPasswordSuccessful(), expectedAlertUpdatePasswordSuccessful);
     }
 
-    @Test (priority = 19)
+    @Test (priority = 17)
     public void verifyNavigatingToDifferentPagesFromLoginPage(){
 
         loginPage = new LoginPage(driver);
@@ -344,13 +345,14 @@ public class Login extends Base {
 
     @Test (priority = 19)
     public void verifyBreakcrumbHeadingTitleAndPageLogin(){
+        headerOptions = new HeaderOptions(driver);
         headerOptions.clickOnMyAccount();
         loginPage = headerOptions.selectLoginOption();
         Assert.assertTrue(loginPage.didWeNavigateToLoginPage());
 
     }
 
-    @Test (priority = 19)
+    @Test (priority = 20)
     public void verifyBreadCrumbPageHeadingTitleAndPageURLOfLoginPage(){
         Assert.assertTrue(loginPage.didWeNavigateToLoginPage());
         Assert.assertEquals(getPageTitle(driver), prop.getProperty("loginPageTitle"));
@@ -359,7 +361,7 @@ public class Login extends Base {
         Assert.assertEquals(loginPage.getLoginHeadingTwo(), prop.getProperty("loginHeadingTwo"));
     }
 
-    @Test (priority = 20)
+    @Test (priority = 21)
     public void verifyUIOfLoginPage(){
         CommonUtils.takeScreenshot(driver,  "\\Screenshots\\actualLoginPageUI.png");
         Assert.assertFalse(CommonUtils.compareTwoScreenshots(

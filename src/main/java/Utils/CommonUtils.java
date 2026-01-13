@@ -1,5 +1,8 @@
 package Utils;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.aventstack.extentreports.reporter.configuration.ExtentSparkReporterConfig;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -89,6 +92,18 @@ public class CommonUtils {
         return driver;
     }
 
+    public static String takeScreenshotAndReturnPath(WebDriver driver, String pathToBCopied) {
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File srcScreenshot = ts.getScreenshotAs(OutputType.FILE);
+        String destScreenshotPath = System.getProperty("user.dir") + pathToBCopied;
+        try {
+            FileHandler.copy(srcScreenshot, new File(System.getProperty("user.dir") + pathToBCopied));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return destScreenshotPath;
+    }
+
     public static String generateBrandNewEmail(){
         Date date = new Date();
         String dateString = date.toString();
@@ -172,14 +187,31 @@ public class CommonUtils {
                 map.put(key, value);
 
             }
-
             obj[i][0] = map;
-
         }
-
         return obj;
+    }
+
+    public static ExtentReports getExtentReport() {
+
+        ExtentReports extentReport = new ExtentReports();
+
+        File extentReportFile = new File(System.getProperty("user.dir") + "\\reports\\TNExtentReport.html");
+
+        ExtentSparkReporter sparkReporter = new ExtentSparkReporter(extentReportFile);
+        ExtentSparkReporterConfig sparkConfig = sparkReporter.config();
+        sparkConfig.setReportName("Tutorials Ninja Test Automation Results");
+        sparkConfig.setDocumentTitle("TNER Results");
+
+        extentReport.attachReporter(sparkReporter);
+        extentReport.setSystemInfo("OS", System.getProperty("os.name"));
+        extentReport.setSystemInfo("Java Version", System.getProperty("java.version"));
+        extentReport.setSystemInfo("Username", System.getProperty("user.name"));
+        extentReport.setSystemInfo("Selenium WebDriver Version", "4.24.0");
+
+        return extentReport;
 
     }
-    
+
 
 }
