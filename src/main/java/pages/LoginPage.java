@@ -9,12 +9,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.root.RootPage;
 
 import java.time.Duration;
 
-public class LoginPage {
-    WebDriver driver;
+public class LoginPage extends RootPage {
     public  LoginPage(WebDriver driver){
+        super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }

@@ -46,9 +46,7 @@ public class Login extends Base {
     
     @AfterMethod
     public void tearDown(){
-        if (driver != null){
-            driver.quit();
-        }
+        closeBrowser(driver);
     }
 
     @Test(priority = 1)
@@ -337,7 +335,7 @@ public class Login extends Base {
         loginPage = rightColumnOptions.clickOnRightSideLoginOption();
         Assert.assertTrue(loginPage.didWeNavigateToLoginPage());
         headerOptions = new HeaderOptions(driver);
-        headerOptions.clickOnMyAccount();
+        headerOptions.clickOnMyAccountDropMenu();
         loginPage = headerOptions.selectLoginOption();
         Assert.assertTrue(loginPage.didWeNavigateToLoginPage());
 
@@ -346,7 +344,7 @@ public class Login extends Base {
     @Test (priority = 19)
     public void verifyBreakcrumbHeadingTitleAndPageLogin(){
         headerOptions = new HeaderOptions(driver);
-        headerOptions.clickOnMyAccount();
+        headerOptions.clickOnMyAccountDropMenu();
         loginPage = headerOptions.selectLoginOption();
         Assert.assertTrue(loginPage.didWeNavigateToLoginPage());
 

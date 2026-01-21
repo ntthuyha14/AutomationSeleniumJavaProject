@@ -4,11 +4,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pages.root.RootPage;
 
-public class LandingPage{
-    WebDriver driver;
+public class LandingPage extends RootPage {
 
     public LandingPage(WebDriver driver){
+        super(driver);
         this.driver = driver ;
         PageFactory.initElements(driver, this);
     }
@@ -20,16 +21,16 @@ public class LandingPage{
     }
 
     @FindBy (linkText = "Register")
-    private WebElement registeroption;
+    private WebElement registerOption;
     public RegisterPage selectRegisterOption() {
-        registeroption.click();
+        registerOption.click();
         return new RegisterPage(driver);
     }
 
     @FindBy (linkText = "Login")
-    private WebElement loginoption;
+    private WebElement loginOption;
     public LoginPage selectLoginOption() {
-        loginoption.click();
+        loginOption.click();
         return new LoginPage(driver);
     }
 }

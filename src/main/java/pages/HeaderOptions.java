@@ -2,14 +2,14 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pages.root.RootPage;
 
-public class HeaderOptions {
-    WebDriver driver;
+public class HeaderOptions extends RootPage {
 
     public HeaderOptions(WebDriver driver){
+        super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -23,22 +23,26 @@ public class HeaderOptions {
 
     @FindBy (xpath = "//span[text()='My Account']")
     private WebElement myAccountDropMenu;
-    public void clickOnMyAccount(){
+    public void clickOnMyAccountDropMenu(){
         myAccountDropMenu.click();
     }
 
     @FindBy (linkText = "Register")
-    private WebElement registeroption;
+    private WebElement registerOption;
     public RegisterPage selectRegisterOption() {
-        registeroption.click();
+        registerOption.click();
         return new RegisterPage(driver);
     }
 
     @FindBy (linkText = "Login")
-    private WebElement loginoption;
+    private WebElement loginOption;
     public LoginPage selectLoginOption() {
-        loginoption.click();
+        loginOption.click();
         return new LoginPage(driver);
+    }
+
+    public boolean isLoginOptionAvailable(){
+        return loginOption.isDisplayed();
     }
 
     @FindBy (xpath = "//a[@id='wishlist-total']")
@@ -73,5 +77,16 @@ public class HeaderOptions {
     public SearchPage clickOnSearchIconOption(){
         searchIconOption.click();
         return new SearchPage(driver);
+    }
+
+    @FindBy (xpath = "//ul[@class='dropdown-menu dropdown-menu-right']//a[text()='Logout']")
+    private WebElement buttonLogoutOnDropDown;
+    public boolean isDisplayButtonLogoutOnDropDown(){
+        return buttonLogoutOnDropDown.isDisplayed();
+    }
+
+    public AccountLogoutPage selectLogoutOption(){
+        buttonLogoutOnDropDown.click();
+        return new AccountLogoutPage(driver);
     }
 }

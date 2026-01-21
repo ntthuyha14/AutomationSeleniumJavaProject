@@ -124,4 +124,10 @@ public class Base {
     public  String getURLPage(WebDriver driver){
         return driver.getCurrentUrl();
     }
+
+    public void closeBrowser(WebDriver driver){
+        if (driver!= null){
+            driver.quit();
+        }
+    }
 }

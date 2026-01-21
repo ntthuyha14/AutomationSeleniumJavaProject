@@ -29,20 +29,20 @@ import java.util.NoSuchElementException;
 
 public class Register extends Base {
     private static final Logger log = LoggerFactory.getLogger(Register.class);
-    WebDriver driver;
-    Properties prop;
-    LandingPage landingPage;
-    RegisterPage registerPage;
-    AccountPageSuccessful accountPageSuccessful;
-    AccountPage accountPage;
-    NewsLetterPage newsLetterPage;
-    LoginPage loginPage;
-    RightColumnOptions rightColumnOptions;
-    ContactUsPage contactUsPage;
-    ShoppingCartPage shoppingCartPage;
-    SearchPage searchPage;
-    ForgotPasswordPage forgotPasswordPage;
-    AboutUsPage aboutUsPage;
+    public WebDriver driver;
+    public Properties prop;
+    public LandingPage landingPage;
+    public RegisterPage registerPage;
+    public AccountPageSuccessful accountPageSuccessful;
+    public AccountPage accountPage;
+    public NewsLetterPage newsLetterPage;
+    public LoginPage loginPage;
+    public RightColumnOptions rightColumnOptions;
+    public ContactUsPage contactUsPage;
+    public ShoppingCartPage shoppingCartPage;
+    public SearchPage searchPage;
+    public ForgotPasswordPage forgotPasswordPage;
+    public AboutUsPage aboutUsPage;
     public MyXLSReader myXLSReader;
 
     @BeforeMethod
@@ -56,9 +56,7 @@ public class Register extends Base {
 
     @AfterMethod
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        closeBrowser(driver);
     }
 
     @Test(priority = 1)
@@ -306,6 +304,7 @@ public class Register extends Base {
         String expectedRegisterText = "Register Account";
         Assert.assertEquals(registerPage.getTitleRegisterAccount(), expectedRegisterText);
         Assert.assertTrue(registerPage.didWeNavigatetoRegisterPage());
+        driver = registerPage.getDriver();
 
         landingPage.clickOnMyAccount();
         loginPage =  landingPage.selectLoginOption();
@@ -346,7 +345,7 @@ public class Register extends Base {
         registerPage.enterTelephone(prop.getProperty("phoneNumber"));
         registerPage.enterEmail("thuyha@gmail.com");
         registerPage.enterPassword(prop.getProperty("passWord"));
-        registerPage.enterPassword(prop.getProperty("confirmPassword"));;
+        registerPage.enterConfirmPassword(prop.getProperty("confirmPassword"));;
         registerPage.selectNoNewsletterOption();
         registerPage.selectPrivacyPolicy();
         registerPage.clickOnContinueButton();
@@ -383,6 +382,11 @@ public class Register extends Base {
         driver.findElement(By.xpath("//input[@value='Continue']")).click();
 
         Thread.sleep(2000);
+
+        CommonUtils.takeScreenshot(driver,  "\\Screenshots\\actualLoginPageUI.png");
+        Assert.assertFalse(CommonUtils.compareTwoScreenshots(
+                System.getProperty("user.dir") +"\\Screenshots\\actualLoginPageUI.png",
+                System.getProperty("user.dir") +"\\Screenshots\\expectedLoginPageUI.png" ));
 
         File srcScreenshot2 = driver.findElement(By.xpath("//form[@class='form-horizontal']")).getScreenshotAs(OutputType.FILE);
         FileHandler.copy(srcScreenshot2,new File(System.getProperty("user.dir")+"\\Screenshots\\sc2Actual.png"));
@@ -627,8 +631,8 @@ public class Register extends Base {
 
         boolean state = false;
         try {
-            String acutalWarningMessage = registerPage.getPasswordWarning();
-            if (acutalWarningMessage.equals(warningMessage)){
+            String actualWarningMessage = registerPage.getPasswordWarning();
+            if (actualWarningMessage.equals(warningMessage)){
                 state = true;
             }
         } catch (NoSuchElementException e){

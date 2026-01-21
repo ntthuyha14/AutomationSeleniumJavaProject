@@ -5,15 +5,15 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.root.RootPage;
 
-import javax.swing.text.Element;
 import java.time.Duration;
 
-public class RegisterPage {
-    WebDriver driver;
+public class RegisterPage extends RootPage {
 
     public RegisterPage (WebDriver driver)
     {
+        super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -137,7 +137,7 @@ public class RegisterPage {
     @FindBy(xpath = "//div[@class='alert alert-danger alert-dismissible']")
     private WebElement existingEmailWarning;
     public String getExistingEmailWarning(){
-        return confirmPasscodeWarning.getText();
+        return existingEmailWarning.getText();
     }
 
     public String getTextFromHolderFirstNameField(){
