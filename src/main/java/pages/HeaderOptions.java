@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -82,7 +83,11 @@ public class HeaderOptions extends RootPage {
     @FindBy (xpath = "//ul[@class='dropdown-menu dropdown-menu-right']//a[text()='Logout']")
     private WebElement buttonLogoutOnDropDown;
     public boolean isDisplayButtonLogoutOnDropDown(){
-        return buttonLogoutOnDropDown.isDisplayed();
+        try {
+            return buttonLogoutOnDropDown.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     public AccountLogoutPage selectLogoutOption(){

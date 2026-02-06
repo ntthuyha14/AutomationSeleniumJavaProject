@@ -25,4 +25,7 @@ public class LogoutPage extends RootPage {
         loginoption.click();
         return new LoginPage(driver);
     }
+    
+    
+    
 }

@@ -28,5 +28,9 @@ public class AccountLogoutPage extends RootPage {
         return logoutBreadcrumb.isDisplayed();
     }
 
-
+    @FindBy (xpath = "//div[@id='content']//h1")
+    private WebElement getHeadingPage;
+    public String getHeadingLogoutPage(){
+        return getHeadingPage.getText();
+    }
 }

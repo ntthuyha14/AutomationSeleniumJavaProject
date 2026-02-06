@@ -64,6 +64,11 @@ public class Base {
         return driver;
     }
     
+    public WebDriver refreshPage(WebDriver driver){
+        driver.navigate().refresh();
+        return driver;
+    }
+    
     public WebDriver presskeyMultipleTimes(WebDriver driver, Keys keyName, int count){
         Actions actions = new Actions(driver);
         for (int i = 1; i<=count; i++){
