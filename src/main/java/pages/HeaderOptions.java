@@ -80,6 +80,12 @@ public class HeaderOptions extends RootPage {
         return new SearchPage(driver);
     }
 
+    @FindBy (xpath = "//input[@class='form-control input-lg']")
+    private WebElement inputSearch;
+    public void  enterProductNameInSearch(String productName){
+        inputSearch.sendKeys(productName);
+    }
+
     @FindBy (xpath = "//ul[@class='dropdown-menu dropdown-menu-right']//a[text()='Logout']")
     private WebElement buttonLogoutOnDropDown;
     public boolean isDisplayButtonLogoutOnDropDown(){

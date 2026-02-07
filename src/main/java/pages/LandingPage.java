@@ -33,4 +33,28 @@ public class LandingPage extends RootPage {
         loginOption.click();
         return new LoginPage(driver);
     }
+    
+    @FindBy (xpath = "//input[@class='form-control input-lg']")
+    private WebElement inputSearch;
+    public void  enterProductNameInSearch(String productName){
+         inputSearch.sendKeys(productName);
+    }
+    
+   
+    public String getPlaceHolderInputSearchField(){
+        return inputSearch.getDomProperty("placeholder");
+    }
+
+    @FindBy (xpath = "//button[@class='btn btn-default btn-lg']")
+    private WebElement searchIconOption;
+    public SearchPage clickOnSearchIconOption(){
+        searchIconOption.click();
+        return new SearchPage(driver);
+    }
+    
+    public void clearInputSearch(){
+        inputSearch.clear();
+    }
+    
+
 }
