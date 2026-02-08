@@ -148,7 +148,61 @@ public class SearchPage extends RootPage {
     }
 
   
+    @FindBy (id = "compare-total")
+    private WebElement productCompareLink;
+    public ProductComparisonPage selectProductCompareLink(){
+        productCompareLink.click();
+        return new ProductComparisonPage(driver);
+    }
+    
+    @FindBy (id = "input-sort")
+    private WebElement inputSort;
+    public void selectSortOptionInResultSearch(int indexNumber){
+        Select select = new Select(inputSort);
+        select.selectByIndex(indexNumber);
+    }
+    
+    @FindBy (xpath = "(//div[@class='caption']//h4//a)[1]")
+    private WebElement firstProductInSearchResults;
+    public String getNameFirstProductInSearchResults(){
+        return firstProductInSearchResults.getText();
+    }
 
+    @FindBy (xpath = "(//div[@class='caption']//h4//a)[2]")
+    private WebElement secondProductInSearchResults;
+    public String getNameSecondProductInSearchResults(){
+        return secondProductInSearchResults.getText();
+    }
 
+    @FindBy (xpath = "(//div[@class='caption']//h4//a)[3]")
+    private WebElement thirdProductInSearchResults;
+    public String getNameThirdProductInSearchResults(){
+        return thirdProductInSearchResults.getText();
+    }
+
+    @FindBy (xpath = "(//div[@class='caption']//h4//a)[4]")
+    private WebElement fourthProductInSearchResults;
+    public String getNameFourthProductInSearchResults(){
+        return fourthProductInSearchResults.getText();
+    }
+    
+    @FindBy (id ="input-limit")
+    private WebElement showProduct;
+
+    public void selectValueShowInResultSearch(int indexNumber){
+        Select select = new Select(showProduct);
+        select.selectByIndex(indexNumber);
+    }
+
+    public String getValueCurrentShowOptionProduct() {
+        Select select = new Select(showProduct);
+        String selectedText = select.getFirstSelectedOption().getText();
+        return selectedText.trim();
+    }
+    
+    
+    
+    
+   
 
 }

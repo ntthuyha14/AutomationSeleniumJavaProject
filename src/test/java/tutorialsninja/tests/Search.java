@@ -19,6 +19,7 @@ public class Search extends Base {
     LoginPage loginPage;
     AccountPage accountPage;
     HeaderOptions headerOptions;
+    ProductComparisonPage productComparisonPage;
     
     @BeforeMethod
     public void setup(){
@@ -187,6 +188,59 @@ public class Search extends Base {
         searchPage.clickOnGridViewOption();
         Assert.assertTrue(searchPage.getNumbersProductInSearchResult() > 1);
         
+    }
+    
+    @Test (priority = 13)
+    public void verifyNavigationComparisonProduct(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProduct"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productComparisonPage = searchPage.selectProductCompareLink();
+        Assert.assertTrue(productComparisonPage.didWeNavigatingToCompareProductPage());
+        
+    }
+    
+    @Test (priority = 14)
+    public void verifySortingMultipleProductInSearchResult(){
+        landingPage.enterProductNameInSearch(prop.getProperty("searchTermResultMultipleProducts"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        searchPage.selectSortOptionInResultSearch(1);
+        Assert.assertEquals(searchPage.getNameFirstProductInSearchResults(), "iMac");
+        Assert.assertEquals(searchPage.getNameSecondProductInSearchResults(), "MacBook");
+        Assert.assertEquals(searchPage.getNameThirdProductInSearchResults(), "MacBook Air");
+        Assert.assertEquals(searchPage.getNameFourthProductInSearchResults(), "MacBook Pro");
+        searchPage.selectSortOptionInResultSearch(2);
+        Assert.assertEquals(searchPage.getNameFirstProductInSearchResults(), "MacBook Pro");
+        Assert.assertEquals(searchPage.getNameSecondProductInSearchResults(), "MacBook Air");
+        Assert.assertEquals(searchPage.getNameThirdProductInSearchResults(), "MacBook");
+        Assert.assertEquals(searchPage.getNameFourthProductInSearchResults(), "iMac");
+        searchPage.selectSortOptionInResultSearch(3);
+        Assert.assertEquals(searchPage.getNameFirstProductInSearchResults(), "iMac");
+        Assert.assertEquals(searchPage.getNameSecondProductInSearchResults(), "MacBook");
+        Assert.assertEquals(searchPage.getNameThirdProductInSearchResults(), "MacBook Air");
+        Assert.assertEquals(searchPage.getNameFourthProductInSearchResults(), "MacBook Pro");
+        searchPage.selectSortOptionInResultSearch(4);
+        Assert.assertEquals(searchPage.getNameFirstProductInSearchResults(), "MacBook Pro");
+        Assert.assertEquals(searchPage.getNameSecondProductInSearchResults(), "MacBook Air");
+        Assert.assertEquals(searchPage.getNameThirdProductInSearchResults(), "MacBook");
+        Assert.assertEquals(searchPage.getNameFourthProductInSearchResults(), "iMac");
+        
+    }
+    
+    @Test(priority = 15)
+    public void verifyValueSelectShowQuatityInSearchResult(){
+        landingPage.enterProductNameInSearch(prop.getProperty("searchTermResultMultipleProducts"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        searchPage.selectValueShowInResultSearch(0);
+        Assert.assertEquals(searchPage.getValueCurrentShowOptionProduct(), "20");
+        searchPage.selectValueShowInResultSearch(1);
+        Assert.assertEquals(searchPage.getValueCurrentShowOptionProduct(), "25");
+        searchPage.selectValueShowInResultSearch(2);
+        Assert.assertEquals(searchPage.getValueCurrentShowOptionProduct(), "50");
+        searchPage.selectValueShowInResultSearch(3);
+        Assert.assertEquals(searchPage.getValueCurrentShowOptionProduct(), "75");
+        searchPage.selectValueShowInResultSearch(4);
+        Assert.assertEquals(searchPage.getValueCurrentShowOptionProduct(), "100");
+        ;
     }
     
     
