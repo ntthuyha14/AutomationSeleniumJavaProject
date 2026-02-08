@@ -56,5 +56,12 @@ public class LandingPage extends RootPage {
         inputSearch.clear();
     }
     
+    @FindBy (linkText = "Site Map")
+    private WebElement siteMap;
+    public SiteMapPage clickOnSiteMap(){
+        siteMap.click();
+        return new SiteMapPage(driver);
+    }
+    
 
 }

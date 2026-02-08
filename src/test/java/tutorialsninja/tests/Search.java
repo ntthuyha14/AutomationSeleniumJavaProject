@@ -1,6 +1,7 @@
 package tutorialsninja.tests;
 
 import Utils.CommonUtils;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -20,6 +21,7 @@ public class Search extends Base {
     AccountPage accountPage;
     HeaderOptions headerOptions;
     ProductComparisonPage productComparisonPage;
+    SiteMapPage siteMapPage;
     
     @BeforeMethod
     public void setup(){
@@ -27,11 +29,11 @@ public class Search extends Base {
         prop = CommonUtils.loadProperties();
         landingPage = new LandingPage(driver);
     }
-    
-    @AfterMethod
-    public void tearDown(){
-        closeBrowser(driver);
-    }
+//    
+//    @AfterMethod
+//    public void tearDown(){
+//        closeBrowser(driver);
+//    }
 
     @Test(priority = 1)
     public void verifySearchExistingProductName(){
@@ -242,6 +244,27 @@ public class Search extends Base {
         Assert.assertEquals(searchPage.getValueCurrentShowOptionProduct(), "100");
         ;
     }
+    
+    @Test (priority = 16)
+    public void verifyNavigatingToSearchPageFromSiteMap(){
+        siteMapPage = landingPage.clickOnSiteMap();
+        searchPage = siteMapPage.clickOnButtonSearch();
+        Assert.assertTrue(searchPage.didWeNavigateToSearchPage());
+    }
+    
+    @Test (priority = 17)
+    public void verifyBreadCrumbSearchPage(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProduct"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        Assert.assertTrue(searchPage.didWeNavigateToSearchPage());
+    }
+    
+    @Test (priority = 18)
+    public void verifyUsingTabAndEnterToSearchFunctional(){
+        driver = presskeyMultipleTimes(driver, Keys.TAB, 8);
+        action.sendKeys
+    }
+    
     
     
     
