@@ -3,6 +3,7 @@ package tutorialsninja.tests;
 import Utils.CommonUtils;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -10,6 +11,7 @@ import org.testng.annotations.Test;
 import pages.*;
 import tutorialsninja.base.Base;
 
+import javax.swing.*;
 import java.util.Properties;
 
 public class Search extends Base {
@@ -262,13 +264,28 @@ public class Search extends Base {
     @Test (priority = 18)
     public void verifyUsingTabAndEnterToSearchFunctional(){
         driver = presskeyMultipleTimes(driver, Keys.TAB, 8);
-        action.sendKeys
+        Actions actions = new Actions(driver) ;
+        actions.sendKeys("iMac").perform();
+        // TAB tới nút Search (ví dụ cần thêm 1 TAB nữa)
+        actions.sendKeys(Keys.TAB).perform();
+        // ENTER = click button Search
+        actions.sendKeys(Keys.ENTER).perform();
+        searchPage = new SearchPage(driver);
+        Assert.assertTrue(searchPage.didWeNavigateToSearchPage());
+        Assert.assertEquals(searchPage.getNumbersProductInSearchResult(), 1);
+        driver = presskeyMultipleTimes(driver, Keys.TAB, 21);
+        actions.sendKeys(Keys.DELETE).sendKeys(prop.getProperty("existingSampleTermResultingInMultipleProducts"));
+        for(int i = 0; i < 3; i++){
+            actions.sendKeys(Keys.TAB);
+        }
+        actions.sendKeys(Keys.ENTER).perform();
+        Assert.assertEquals(searchPage.getNumbersProductInSearchResult(), 4);
+    }
+
+        
+        
+      
     }
     
     
     
-    
-
-    
-    
-}

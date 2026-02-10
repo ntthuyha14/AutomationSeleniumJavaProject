@@ -62,6 +62,8 @@ public class LandingPage extends RootPage {
         siteMap.click();
         return new SiteMapPage(driver);
     }
+
     
+
 
 }
