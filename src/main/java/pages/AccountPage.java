@@ -8,7 +8,6 @@ import pages.root.RootPage;
 
 public class AccountPage extends RootPage {
 
-
     public AccountPage (WebDriver driver){
         super(driver);
         this.driver = driver;

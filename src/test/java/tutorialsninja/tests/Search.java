@@ -31,11 +31,11 @@ public class Search extends Base {
         prop = CommonUtils.loadProperties();
         landingPage = new LandingPage(driver);
     }
-//    
-//    @AfterMethod
-//    public void tearDown(){
-//        closeBrowser(driver);
-//    }
+
+    @AfterMethod
+    public void tearDown(){
+        closeBrowser(driver);
+    }
 
     @Test(priority = 1)
     public void verifySearchExistingProductName(){
@@ -281,10 +281,21 @@ public class Search extends Base {
         actions.sendKeys(Keys.ENTER).perform();
         Assert.assertEquals(searchPage.getNumbersProductInSearchResult(), 4);
     }
-
-        
-        
-      
+    
+    @Test (priority = 19)
+    public void verifyPageHeadingPageURLPageTitleOfSearchPage(){
+        searchPage = landingPage.clickOnSearchIconOption();
+        Assert.assertEquals(searchPage.getSearchPageHeading(), prop.getProperty("searchPageHeading"));
+        Assert.assertEquals(getPageTitle(searchPage.getDriver()), prop.getProperty("searchPageTitle"));
+        Assert.assertEquals(getURLPage(searchPage.getDriver()), prop.getProperty("searchPageURL"));
+    }
+    
+    @Test (priority = 20)
+    public void verifySearchPageUI(){
+        searchPage = landingPage.clickOnSearchIconOption();
+        CommonUtils.takeScreenshot(searchPage.getDriver(), "\\Screenshots\\actualUISearchPage.png");
+        Assert.assertFalse(CommonUtils.compareTwoScreenshots(System.getProperty("user.dir") + "\\Screenshots\\actualUISearchPage.png", System.getProperty("user.dir") + "\\Screenshots\\expectedUISearchPage.png"));
+    }
     }
     
     

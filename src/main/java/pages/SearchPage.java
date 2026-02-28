@@ -200,6 +200,21 @@ public class SearchPage extends RootPage {
         return selectedText.trim();
     }
     
+    @FindBy (xpath = "//div[@id = 'content']/h1")
+    private WebElement searchPageHeading;
+    public String getSearchPageHeading(){
+        return searchPageHeading.getText();
+    }
+    
+    @FindBy (linkText = "product comparison")
+    private WebElement buttonProductComparison;
+    public ProductComparisonPage clickOnProductComparison(){
+        buttonProductComparison.click();
+        return new ProductComparisonPage(driver);
+    }
+
+    
+    
     
     
     

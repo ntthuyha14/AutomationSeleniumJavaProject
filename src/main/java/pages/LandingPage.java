@@ -63,6 +63,19 @@ public class LandingPage extends RootPage {
         return new SiteMapPage(driver);
     }
 
+    @FindBy (linkText = "Desktops")
+    private WebElement DesktopsOption;
+    public void clickOnDesktopsOption(){
+        DesktopsOption.click();
+    }
+
+    @FindBy (linkText = "Show AllDesktops")
+    private WebElement showAllDesktopsOption;
+    public CategoryProductPage clickOnShowAllDesktopsOption(){
+        showAllDesktopsOption.click();
+        return new CategoryProductPage(driver);
+    }
+    
     
 
 
