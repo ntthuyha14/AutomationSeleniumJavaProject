@@ -45,6 +45,13 @@ public class CategoryProductPage extends RootPage {
         buttonProductComparison.click();
         return new ProductComparisonPage(driver);
     }
+
+    @FindBy (id = "compare-total")
+    private WebElement productCompareLink;
+    public ProductComparisonPage selectProductCompareLink(){
+        productCompareLink.click();
+        return new ProductComparisonPage(driver);
+    }
     
     
 }

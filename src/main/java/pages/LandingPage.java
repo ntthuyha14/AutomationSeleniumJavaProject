@@ -1,10 +1,16 @@
 package pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.root.RootPage;
+
+import java.time.Duration;
 
 public class LandingPage extends RootPage {
 
@@ -75,7 +81,35 @@ public class LandingPage extends RootPage {
         showAllDesktopsOption.click();
         return new CategoryProductPage(driver);
     }
+
+    @FindBy (xpath = "(//button[@data-original-title = 'Compare this Product'])[1]")
+    private WebElement buttonCompareProduct;
+    public void clickOnButtonCompareProductLandingPage(){
+        buttonCompareProduct.click();
+    }
     
+    @FindBy (xpath = "//div[@class='alert alert-success alert-dismissible']")
+    private WebElement warningMessageCompareProduct;
+    public String getWarningMessageCompareProduct(){
+        String fullText = warningMessageCompareProduct.getText();
+        return fullText.substring(0, fullText.indexOf("!") + 1);
+    }
+
+    @FindBy (linkText = "product comparison")
+    private WebElement buttonProductComparison;
+    public ProductComparisonPage clickOnProductComparison(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        WebElement element = wait.until(
+                ExpectedConditions.presenceOfElementLocated(
+                        By.linkText("product comparison"))
+        );
+
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].click();", element);
+
+        return new ProductComparisonPage(driver);
+    }
     
 
 

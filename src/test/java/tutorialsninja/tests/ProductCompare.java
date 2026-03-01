@@ -1,7 +1,9 @@
 package tutorialsninja.tests;
 
 import Utils.CommonUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -9,6 +11,7 @@ import org.testng.annotations.Test;
 import pages.*;
 import tutorialsninja.base.Base;
 
+import java.time.Duration;
 import java.util.Properties;
 
 public class ProductCompare extends Base {
@@ -19,6 +22,7 @@ public class ProductCompare extends Base {
     SearchPage searchPage;
     ProductDisplayPage productDisplayPage;
     CategoryProductPage categoryProductPage;
+    ProductPage productPage;
     
     @BeforeMethod
     public void setup(){
@@ -108,6 +112,116 @@ public class ProductCompare extends Base {
         Assert.assertEquals(productComparisonPage.getProductNameOnComparePage(), productName);
         String productPrice = "$122.00$110.00";
         Assert.assertEquals(productComparisonPage.getPriceProduct(), productPrice);
+    }
+    
+    @Test (priority = 6)
+    public void verifyAddProductComparisionFromRelatedProduct(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        productDisplayPage.clickOnButtonCompareRelatedProduct();
+        String expectedWarningCompareProduct = "Success: You have added Apple Cinema 30\" to your product comparison!";
+        Assert.assertEquals(productDisplayPage.getWarningMessageCompareProduct(), expectedWarningCompareProduct);
+        productComparisonPage = productDisplayPage.clickOnProductRelatedComparison();
+        String productName = "Apple Cinema 30\"";
+        Assert.assertEquals(productComparisonPage.getProductNameOnComparePage(), productName);
+        String productPrice = "$122.00$110.00";
+        Assert.assertEquals(productComparisonPage.getPriceProduct(), productPrice);
+    }
+    
+    @Test( priority = 7)
+    public void verifyAddProductComparisionFromLandingPage(){
+        landingPage.clickOnButtonCompareProductLandingPage();
+        String expectedWarningCompareProduct = "Success: You have added MacBook to your product comparison!";
+        Assert.assertEquals(landingPage.getWarningMessageCompareProduct(), expectedWarningCompareProduct);
+        productComparisonPage = landingPage.clickOnProductComparison();
+        String productName = "MacBook";
+        Assert.assertEquals(productComparisonPage.getProductNameOnComparePage(), productName);
+        String productPrice = "$602.00";
+        Assert.assertEquals(productComparisonPage.getPriceProduct(), productPrice);
+    }
+    
+    @Test (priority = 8)
+    public void verifyNavigatingProductComparePageFromSearchResultPage(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productComparisonPage = searchPage.selectProductCompareLink();
+        Assert.assertTrue(productComparisonPage.didWeNavigatingToCompareProductPage());
+    }
+    
+    @Test (priority = 9)
+    public void verifyNavigatingProductComparePageFromCategoryPage(){
+        landingPage.clickOnDesktopsOption();
+        categoryProductPage = landingPage.clickOnShowAllDesktopsOption();
+        productComparisonPage = categoryProductPage.selectProductCompareLink();
+        Assert.assertTrue(productComparisonPage.didWeNavigatingToCompareProductPage());
+    }
+
+    @Test (priority = 10)
+    public void verifyNoProductAddComparision(){
+        landingPage.clickOnDesktopsOption();
+        categoryProductPage = landingPage.clickOnShowAllDesktopsOption();
+        productComparisonPage = categoryProductPage.selectProductCompareLink();
+        Assert.assertTrue(productComparisonPage.didWeNavigatingToCompareProductPage());
+        String expectedMessageNoProductCompare = "You have not chosen any products to compare.";
+        Assert.assertEquals(productComparisonPage.getContentNoProductChoose(), expectedMessageNoProductCompare);
+    }
+
+    @Test (priority = 11)
+    public void verifyButtonContinueOnProductComparisionPage(){
+        landingPage.clickOnDesktopsOption();
+        categoryProductPage = landingPage.clickOnShowAllDesktopsOption();
+        productComparisonPage = categoryProductPage.selectProductCompareLink();
+        Assert.assertTrue(productComparisonPage.didWeNavigatingToCompareProductPage());
+        String expectedMessageNoProductCompare = "You have not chosen any products to compare.";
+        Assert.assertEquals(productComparisonPage.getContentNoProductChoose(), expectedMessageNoProductCompare);
+        landingPage = productComparisonPage.clickOnButtonContinue();
+        Assert.assertEquals(getPageTitle(landingPage.getDriver()), "Your Store");
+    }
+    
+    //Testcase 13
+    @Test (priority = 12)
+    public void verifyProductNameAndProductComparisionFromMessage(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        productDisplayPage.clickOnButtonCompareProduct();
+        String expectedWarningCompareProduct = "Success: You have added iMac to your product comparison!";
+        Assert.assertEquals(productDisplayPage.getWarningMessageCompareProduct(), expectedWarningCompareProduct);
+        productPage = productDisplayPage.clickOnProductNameFromProductSearchDetailPage();
+        Assert.assertTrue(productPage.didWeNavigateToProductPage());
+        navigateBack(driver);
+        productComparisonPage = searchPage.clickOnProductComparison();
+        Assert.assertTrue(productComparisonPage.didWeNavigatingToCompareProductPage());
+        
+    }
+    
+    @Test (priority = 13)
+    public void verifyOneProductAddComparision(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        searchPage.clickOnButtonCompareProduct();
+        productComparisonPage = searchPage.clickOnProductComparison();
+        Assert.assertEquals(productComparisonPage.getQuantityProductCompare(), 1);
+        Assert.assertEquals(productComparisonPage.getProductNameOnComparePage(), prop.getProperty("existingProductInSubCategory"));
+        String productPrice = "$122.00";
+        Assert.assertEquals(productComparisonPage.getPriceProduct(), productPrice);
+        String productModel = "Product 14";
+        Assert.assertEquals(productComparisonPage.getModelProduct(), productModel);
+        String brandProduct = "Apple";
+        Assert.assertEquals(productComparisonPage.getBrandProduct(), brandProduct);
+        String statusProduct = "Out Of Stock";
+        Assert.assertEquals(productComparisonPage.getStatusProduct(), statusProduct);
+        Integer ratingProduct = 5;
+        Assert.assertEquals(productComparisonPage.getQuantityRating(), ratingProduct );
+        String summaryProduct = "Just when you thought iMac had everything, now there´s even more. More powerful Intel Core 2 Duo processors. And more memory standard. Combine this with Mac OS X Leopard and iLife ´08, and it´s mor..";
+        Assert.assertEquals(productComparisonPage.getProductDetail(), summaryProduct);
+        String weightProduct = "5.00kg";
+        Assert.assertEquals(productComparisonPage.getWeightProduct(), weightProduct);
+        String dimensionsProduct = "0.00cm x0.00cm x0.00cm";
+        Assert.assertEquals(productComparisonPage.getDemensionProduct(), dimensionsProduct);
+        Assert.assertTrue(productComparisonPage.didButtonAddToCartDisplay());
+        Assert.assertTrue(productComparisonPage.didButtonRemoveDisplay());
     }
     
 }
