@@ -31,10 +31,10 @@ public class ProductCompare extends Base {
         landingPage = new LandingPage(driver);
     }
 
-//    @AfterMethod
-//    public void tearDown(){
-//        closeBrowser(driver);
-//    }
+    @AfterMethod
+    public void tearDown(){
+        closeBrowser(driver);
+    }
     
     @Test (priority = 1)
     public void verifyAddProductComparisionFromProductDisplayPage(){
