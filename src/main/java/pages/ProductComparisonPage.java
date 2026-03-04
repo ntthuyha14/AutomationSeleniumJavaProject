@@ -23,10 +23,34 @@ public class ProductComparisonPage extends RootPage {
         return breadcrumbCompareProduct.isDisplayed();
     }
 
-    @FindBy (xpath = "//a//strong")
+    @FindBy (xpath = "(//a//strong)[1]")
     private WebElement productName;
     public String getProductNameOnComparePage(){
         return productName.getText();
+    }
+
+    @FindBy(xpath = "(//a//strong)[2]")
+    private WebElement productName2;
+    public String getProductNameTwoOnComparePage(){
+        return productName2.getText();
+    }
+
+    @FindBy(xpath = "(//a//strong)[3]")
+    private WebElement productName3;
+    public String getProductNameThreeOnComparePage(){
+        return productName3.getText();
+    }
+
+    @FindBy(xpath = "(//a//strong)[4]")
+    private WebElement productName4;
+    public String getProductNameFourthOnComparePage(){
+        return productName4.getText();
+    }
+
+    @FindBy(xpath = "(//a//strong)[5]")
+    private WebElement productName5;
+    public String getProductNameFifthOnComparePage(){
+        return productName5.getText();
     }
 
     @FindBy (xpath = "//td[@class='description']")
@@ -87,10 +111,18 @@ public class ProductComparisonPage extends RootPage {
         }
     }
 
+    public void clickOnButtonAddToCart(){
+        buttonAddToCart.click();
+    }
+
     @FindBy (linkText = "Remove")
     private WebElement buttonRemove;
     public boolean didButtonRemoveDisplay(){
         return buttonRemove.isDisplayed();
+    }
+
+    public void clickOnButtonRemove(){
+        buttonRemove.click();
     }
 
     @FindBy (xpath = "//div[@id='content']//p")
@@ -110,5 +142,12 @@ public class ProductComparisonPage extends RootPage {
     private List<WebElement> quantityProductCompare;
     public int getQuantityProductCompare(){
         return quantityProductCompare.size();
+    }
+
+    @FindBy (xpath = "//div[@class='alert alert-success alert-dismissible']")
+    private WebElement warningMessageProduct;
+    public String getMessageProductSuccessful(){
+        String fullText = warningMessageProduct.getText();
+        return fullText.substring(0, fullText.indexOf("!") + 1);
     }
 }
