@@ -360,8 +360,9 @@ public class ProductCompare extends Base {
         searchPage = landingPage.clickOnSearchIconOption();
         searchPage.clickOnButtonCompareProduct();
         productComparisonPage = searchPage.clickOnProductComparison();
-        getPageTitle(driver);
-        getURLPage(driver);
+        Assert.assertEquals(getPageTitle(driver), prop.getProperty("productCompareTitle"));
+        Assert.assertEquals( getURLPage(driver), prop.getProperty("productCompareURL"));
+        Assert.assertEquals(productComparisonPage.getHeadingCompareProductPage(), prop.getProperty("productCompareHeading"));
     }
 
 

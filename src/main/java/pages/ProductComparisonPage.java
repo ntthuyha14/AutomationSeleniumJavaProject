@@ -150,4 +150,10 @@ public class ProductComparisonPage extends RootPage {
         String fullText = warningMessageProduct.getText();
         return fullText.substring(0, fullText.indexOf("!") + 1);
     }
+
+    @FindBy (xpath = "//div[@id='content']//h1")
+    private WebElement headingCompareProductPage;
+    public String getHeadingCompareProductPage(){
+        return headingCompareProductPage.getText();
+    }
 }
