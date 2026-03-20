@@ -6,7 +6,7 @@ A comprehensive test automation framework built with Selenium WebDriver and Java
 
 - [Project Overview](#project-overview)
 - [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
+- [Test Report](#test-report)
 
 
 ## Project Overview
@@ -31,5 +31,7 @@ This project is a Selenium WebDriver-based test automation framework written in 
 | Maven | 3.x+ | Build & dependency management |
 | Log4j | 2.x | Logging framework |
 
+
+## Test Report
 <img width="1914" height="939" alt="image" src="https://github.com/user-attachments/assets/1b392fed-2456-4bbe-a663-94c447b55332" />
 
