@@ -7,14 +7,7 @@ A comprehensive test automation framework built with Selenium WebDriver and Java
 - [Project Overview](#project-overview)
 - [Technology Stack](#technology-stack)
 - [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Running Tests](#running-tests)
-- [Test Organization](#test-organization)
-- [Best Practices](#best-practices)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
+
 
 ## Project Overview
 
