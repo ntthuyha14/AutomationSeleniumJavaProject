@@ -10,6 +10,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.LandingPage;
+import pages.ProductComparisonPage;
 import pages.ProductDisplayPage;
 import pages.SearchPage;
 import tutorialsninja.base.Base;
@@ -23,6 +24,7 @@ public class ProductDisplay extends Base {
     LandingPage landingPage;
     SearchPage searchPage;
     ProductDisplayPage productDisplayPage;
+    ProductComparisonPage productComparisonPage;
 
     @BeforeMethod
     public void setup(){
@@ -31,11 +33,11 @@ public class ProductDisplay extends Base {
         landingPage = new LandingPage(driver);
     }
 
-
-    @AfterMethod
-    public void tearDown() {
-        closeBrowser(driver);
-    }
+//
+//    @AfterMethod
+//    public void tearDown() {
+//        closeBrowser(driver);
+//    }
 
     @Test(priority = 1)
     public void verifyDisplayThumbNailOnProductDisplayPage(){
@@ -115,6 +117,7 @@ public class ProductDisplay extends Base {
         Assert.assertFalse(productDisplayPage.isMessageWarningDisplay());
     }
 
+    //TC_010
     @Test (priority = 7)
     public void verifyAddReviewProduct(){
         landingPage.enterProductNameInSearch("Apple Cinema 30\"");
@@ -130,6 +133,124 @@ public class ProductDisplay extends Base {
         Assert.assertEquals(productDisplayPage.getMessageReviewsuccessful(), "Thank you for your review. It has been submitted to the webmaster for approval.");
     }
 
+    //TC_011
+    @Test (priority = 8)
+    public void verifyNoReviewAddOnReviewTab(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        productDisplayPage.clickOnButtonReview();
+        String expectedNotifyReview = "There are no reviews for this product.";
+        Assert.assertEquals(productDisplayPage.getNotifyReview(), expectedNotifyReview);
+    }
+
+    //TC_012
+    @Test (priority = 9)
+    public void verifyMandatoryFieldOnReviewTab(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        String contentReview = "This product is very good and easy to use. The design looks nice and the quality feels solid. It works well and matches the description on the website. I am satisfied with my purchase and would recommend it to others. Great value for the price.";
+        productDisplayPage.clickOnButtonReview();
+        //Check Your Name Field
+        productDisplayPage.enterContentReviewProduct(contentReview);
+        productDisplayPage.selectRatingReviewProduct();
+        productDisplayPage.clickOnButtonSendReview();
+        Assert.assertEquals(productDisplayPage.getWarningMessageReview(), "Warning: Review Name must be between 3 and 25 characters!");
+        refreshPage(driver);
+        productDisplayPage.clickOnButtonReview();
+        //Check Your Review Field
+        productDisplayPage.enterCustomerNameReviewProduct("Test");
+        productDisplayPage.selectRatingReviewProduct();
+        productDisplayPage.clickOnButtonSendReview();
+        Assert.assertEquals(productDisplayPage.getWarningMessageReview(), "Warning: Review Text must be between 25 and 1000 characters!");
+        refreshPage(driver);
+        productDisplayPage.clickOnButtonReview();
+        //Check Your Review Field
+        productDisplayPage.enterCustomerNameReviewProduct("Test");
+        productDisplayPage.enterContentReviewProduct(contentReview);
+        productDisplayPage.clickOnButtonSendReview();
+        Assert.assertEquals(productDisplayPage.getWarningMessageReview(), "Warning: Please select a review rating!");
+
+    }
+
+    //TC_013
+    @Test (priority = 10)
+    public void verifySelectedReviewWhenClickOnWriteAReview(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        productDisplayPage.clickOnWriteAReview();
+        System.out.println(productDisplayPage.isSelectedReviewTab());
+        Assert.assertEquals(productDisplayPage.isSelectedReviewTab(), "true");
+    }
+
+    @Test (priority = 11)
+    public void verifyAverageCountReviewAndNumberReviewUnderButtonAddToCart(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        Assert.assertEquals(productDisplayPage.getAverageStar(), 5);
+        System.out.println(productDisplayPage.getNumberReview());
+        Assert.assertEquals(productDisplayPage.getNumberReview(), 0);
+    }
+
+    @Test (priority = 12)
+    public void verifyCountOfReviewInTabReview(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        Assert.assertEquals(productDisplayPage.getNumberReviewOnTabReview(), productDisplayPage.getNumberReview());
+    }
+
+    @Test (priority = 13)
+    public void verifyShowReviewOnTabReviewWhenClickOnXReviews(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        productDisplayPage.clickOnButtonXReview();
+        Assert.assertEquals(productDisplayPage.isSelectedReviewTab(), "true");
+    }
+
+    @Test (priority = 14)
+    public void verifySubmitReviewWithoutFillMandatoryField(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        productDisplayPage.clickOnButtonReview();
+        productDisplayPage.clickOnButtonSendReview();
+        String messageSubmitReviewFail = "Warning: Please select a review rating!";
+        System.out.println(productDisplayPage.getWarningMessageReview());
+        Assert.assertEquals(productDisplayPage.getWarningMessageReview(), messageSubmitReviewFail);
+    }
+
+    @Test (priority = 15)
+    public void verifyAddProductToWishList(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        productDisplayPage.clickOnButtonAddToWishList();
+        String expectedMessageAddWishList = "You must login or create an account to save iMac to your wish list!";
+        System.out.println(productDisplayPage.getWarningMessageCompareProduct());
+        Assert.assertEquals(productDisplayPage.getWarningMessageCompareProduct(), expectedMessageAddWishList);
+    }
+
+    @Test (priority = 16)
+    public void verifyAddProductToComparation(){
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
+        searchPage = landingPage.clickOnSearchIconOption();
+        productDisplayPage = searchPage.clickOnImageProduct();
+        productDisplayPage.clickOnButtonCompareToProduct();
+        String expectedMessageAddToCompareProduct = "Success: You have added iMac to your product comparison!";
+        System.out.println(productDisplayPage.getWarningMessageCompareProduct());
+        Assert.assertEquals(productDisplayPage.getWarningMessageCompareProduct(), expectedMessageAddToCompareProduct);
+        productComparisonPage = productDisplayPage.clickOnProductComparison();
+        String productDetail = "Just when you thought iMac had everything, now there´s even more. More powerful Intel Core 2 Duo processors. And more memory standard. Combine this with Mac OS X Leopard and iLife ´08, and it´s mor..";
+        String productPrice = "$122.00";
+        Assert.assertEquals(productComparisonPage.getPriceProduct(), productPrice);
+        Assert.assertEquals(productComparisonPage.getProductDetail(), productDetail);
+        Assert.assertEquals(productComparisonPage.getProductNameOnComparePage(), prop.getProperty("existingProductInSubCategory"));
+    }
 
 
 }

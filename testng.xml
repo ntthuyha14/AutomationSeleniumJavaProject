@@ -6,8 +6,9 @@
     </listeners>
     <test thread-count="5" name="Test">
         <classes>
+            <class name="tutorialsninja.tests.Login"/>
+            <class name="tutorialsninja.tests.Search"/>
             <class name="tutorialsninja.tests.ProductCompare"/>
-<!--            <class name="tutorialsninja.tests.Login"/>-->
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->

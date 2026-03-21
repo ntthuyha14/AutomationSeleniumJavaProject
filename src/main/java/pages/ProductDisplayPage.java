@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.root.RootPage;
 
 import java.time.Duration;
+import java.util.List;
 
 public class ProductDisplayPage extends RootPage {
     public ProductDisplayPage(WebDriver driver){
@@ -176,7 +177,7 @@ public class ProductDisplayPage extends RootPage {
         return warningMessageProduct.isDisplayed();
     }
 
-    @FindBy (xpath = "//ul[@class='nav nav-tabs']//li[3]//a")
+    @FindBy (xpath = "//ul[@class='nav nav-tabs']//li//a[@href='#tab-review']")
     private WebElement reviewProduct;
     public void clickOnButtonReview(){
         reviewProduct.click();
@@ -200,19 +201,78 @@ public class ProductDisplayPage extends RootPage {
         buttonReview.click();
     }
 
+    @FindBy (xpath = "//a[text()= 'Write a review']")
+    private WebElement buttonWriteAReview;
+    public void clickOnWriteAReview(){
+        buttonWriteAReview.click();
+    }
+
     @FindBy (xpath = "//input[@name='rating' and @value='4']")
     private WebElement ratingReview;
     public void selectRatingReviewProduct(){
         ratingReview.click();
     }
 
+
     public String getMessageReviewsuccessful(){
        return warningMessageCompareProduct.getText();
     }
 
+    @FindBy (xpath = "//div[@id='review']")
+    private WebElement notifyReview;
+    public String getNotifyReview(){
+        return notifyReview.getText();
+    }
 
+    @FindBy (xpath = "//div[@class='alert alert-danger alert-dismissible']")
+    private WebElement warningMessageReview;
+    public String getWarningMessageReview(){
+        return warningMessageReview.getText();
+    }
 
+    @FindBy (xpath = "//ul[@class='nav nav-tabs']//li[2]//a")
+    private WebElement reviewProduct2;
+    public String isSelectedReviewTab(){
+        return reviewProduct2.getAttribute("ariaExpanded");
+    }
 
+    @FindBy (xpath = "//div[@class='rating']//i[contains(@class,'fa-star')]")
+    private List<WebElement> stars;
+    public int getAverageStar(){
+        return stars.size();
+    }
+
+    @FindBy (xpath = "//a[@onclick][1]")
+    private WebElement numberReview;
+    public int getNumberReview(){
+        String textNumberReview =  numberReview.getText();
+        Integer numberReviewCount = Integer.parseInt(textNumberReview.replaceAll("[^0-9]", ""));
+        return numberReviewCount;
+    }
+
+    @FindBy (xpath = "//div[@id='content']//a[@href = '#tab-review']")
+    private WebElement tabReview;
+    public int getNumberReviewOnTabReview(){
+        String textTabReview = tabReview.getText();
+        int numberTabReview = Integer.parseInt(textTabReview.replaceAll("[^0-9]", ""));
+        return numberTabReview;
+    }
+
+    public void clickOnButtonXReview(){
+        tabReview.click();
+    }
+
+    @FindBy (xpath = "//button[@data-original-title='Add to Wish List']")
+    private WebElement addToWishList;
+    public void clickOnButtonAddToWishList(){
+        addToWishList.click();
+    }
+
+    @FindBy (xpath = "//button[@data-original-title='Compare this Product']")
+    private WebElement compareToProduct;
+    public void clickOnButtonCompareToProduct(){
+        compareToProduct.click();
+    }
 
 
 

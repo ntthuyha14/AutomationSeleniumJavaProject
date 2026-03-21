@@ -32,10 +32,10 @@ public class Search extends Base {
         landingPage = new LandingPage(driver);
     }
 
-    @AfterMethod
-    public void tearDown(){
-        closeBrowser(driver);
-    }
+//    @AfterMethod
+//    public void tearDown(){
+//        closeBrowser(driver);
+//    }
 
     @Test(priority = 1)
     public void verifySearchExistingProductName(){
@@ -57,7 +57,7 @@ public class Search extends Base {
     
     @Test (priority = 3)
     public void verifySearchWithoutEnteringAnyProduct(){
-        landingPage.clickOnSearchIconOption();
+        searchPage = landingPage.clickOnSearchIconOption();
         String expectedMessage = "There is no product that matches the search criteria.";
         Assert.assertEquals(searchPage.getWarningNonProduct(), expectedMessage);
     }
@@ -115,7 +115,7 @@ public class Search extends Base {
 
         searchPage = landingPage.clickOnSearchIconOption();
         searchPage.enterProductNameInSearchCriteria(
-                prop.getProperty("exitingProuductInSubCategory"));
+                prop.getProperty("existingProductInSubCategory"));
         searchPage.selectOptionFromCategoryDropdownFieldUsingIndex(3);
         searchPage.clickButtonSearchCriteria();
         Assert.assertTrue(searchPage.isProductInCategoryDisplayedInSearchResults());
@@ -125,7 +125,7 @@ public class Search extends Base {
     @Test (priority = 10)
     public void  verifySearchByUsingParentCategoryAndSearchInSubCategoriesOption(){
         searchPage = landingPage.clickOnSearchIconOption();
-        searchPage.enterProductNameInSearchCriteria(prop.getProperty("exitingProuductInSubCategory"));
+        searchPage.enterProductNameInSearchCriteria(prop.getProperty("existingProductInSubCategory"));
         searchPage.selectOptionFromCategoryDropdownFieldUsingIndex(1);
         searchPage.clickButtonSearchCriteria();
         String expectedMessage = "There is no product that matches the search criteria.";
@@ -137,7 +137,7 @@ public class Search extends Base {
     
     @Test(priority = 11)
     public void verifyUsingListViewAndGridViewInResultSearchProduct() throws InterruptedException {
-        landingPage.enterProductNameInSearch(prop.getProperty("exitingProuductInSubCategory"));
+        landingPage.enterProductNameInSearch(prop.getProperty("existingProductInSubCategory"));
         searchPage = landingPage.clickOnSearchIconOption();
         Assert.assertTrue(searchPage.isProductInCategoryDisplayedInSearchResults());
         searchPage.clickOnListViewOption();
@@ -274,7 +274,7 @@ public class Search extends Base {
         Assert.assertTrue(searchPage.didWeNavigateToSearchPage());
         Assert.assertEquals(searchPage.getNumbersProductInSearchResult(), 1);
         driver = presskeyMultipleTimes(driver, Keys.TAB, 21);
-        actions.sendKeys(Keys.DELETE).sendKeys(prop.getProperty("existingSampleTermResultingInMultipleProducts"));
+        actions.sendKeys(Keys.DELETE).sendKeys(prop.getProperty("searchTermResultMultipleProducts"));
         for(int i = 0; i < 3; i++){
             actions.sendKeys(Keys.TAB);
         }
